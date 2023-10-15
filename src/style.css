@@ -1,0 +1,17 @@
+@font-face {
+  font-family: PoppinsRegular;
+  src: url(fonts/Poppins-Regular.ttf);
+}
+
+html,
+body,
+#root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: ivory;
+
+  font-family: PoppinsRegular, Arial;
+}
