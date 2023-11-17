@@ -1,6 +1,5 @@
 export const TRANSLATIONS = {
   introStage: ["WELCOME", "BIENVENIDO"],
-  start: ["Start", "Empezar"],
 
   controls: {
     forward: {
@@ -30,7 +29,28 @@ export const TRANSLATIONS = {
     freeCamera: ["Free camera", "Camara libre"]
   },
 
+  playStage: {
+    language: {
+      title: ["Language selected", "Lenguaje seleccionado"]
+    },
+    buttons: {
+      back: ["Exit", "Salir"],
+      editor: ["Go to editor", "Ir al editor"],
+      map: {
+        download: ["Download map", "Descargar mapa"],
+        select: ["Select File", "Seleccionar archivo"],
+        load: ["Load map", "Cargar mapa"],
+      }
+    }
+  },
+
   editorStage: {
-    
+    buttons: {
+      stopEditing: ["Stop editing", "Parar de editar"],
+      item: {
+        rotate: ["Rotate item", "Girar elemento"],
+        move: ["Move item", "Mover elemento"],
+      }
+    }
   }
 }

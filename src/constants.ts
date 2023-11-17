@@ -7,8 +7,8 @@ export interface LanguageProps {
 };
 
 export const LANGUAGES: LanguageProps[] = [
-  { name: "English", id: 0 , screen_name : "English" , image: "assets/languages/english.png" },
-  { name: "Spanish", id: 1 , screen_name : "Español" , image: "assets/languages/spain.png" },
+  { name: "English", id: 0 , screen_name: "English" , image: "assets/languages/english.png" },
+  { name: "Spanish", id: 1 , screen_name: "Español" , image: "assets/languages/spain.png" },
 ];
 
 /** STAGES **/

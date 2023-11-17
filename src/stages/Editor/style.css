@@ -1,0 +1,40 @@
+.editor-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 25%;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(1px);
+}
+
+.editor-elements-container {
+  margin: 2vw;
+}
+
+.editor-buttons-container {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 800px) {
+  .editor-buttons-container {
+    flex-direction: column;
+  }
+}
+
+.editor-moveEnabled {
+  background-color: #59c681;
+}
+
+.editor-moveEnabled:hover, .editor-moveEnabled:focus {
+  background-color: #8bcaa2;
+}
+
+.editor-moveDisabled {
+  background-color: #c65959;
+}
+
+.editor-moveDisabled:hover, .editor-moveDisabled:focus {
+  background-color: #ca8b8b;
+}

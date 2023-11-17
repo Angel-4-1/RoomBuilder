@@ -1,0 +1,25 @@
+.play-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 25%;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(1px);
+  overflow-y: auto;
+}
+
+.play-elements-container {
+  margin: 2vw;
+}
+
+.play-buttons-container {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 800px) {
+  .play-buttons-container {
+    flex-direction: column;
+  }
+}
