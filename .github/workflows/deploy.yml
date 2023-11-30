@@ -13,7 +13,6 @@ permissions:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Job number 1 = Build
   build:
     runs-on: ubuntu-latest
 
@@ -33,15 +32,14 @@ jobs:
           artifact-name: github-pages
           path: dist
           
-    # Job number 2 = Deploy
-    deploy:
-      environment:
-        name: github-pages
-        url: ${{ steps.deployment.outputs.page_url }}
-      runs-on: ubuntu-latest
-      needs: build
-      
-      steps:
-        - name: Deploy to Github Pages 🚀
-          id: deployment
-          uses: actions/deploy-pages@v1
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Deploy to Github Pages 🚀
+        id: deployment
+        uses: actions/deploy-pages@v2
