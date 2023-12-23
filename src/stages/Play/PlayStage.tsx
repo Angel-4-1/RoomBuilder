@@ -1,11 +1,14 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { atom, useAtom } from "jotai"
 import { MapProps, default as mapData } from "~/data/map";
+import { default as itemsData } from "~/data/items";
 import { Item } from "~/components/Item";
 import { AccumulativeShadows, OrbitControls, RandomizedLight } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
+import { ItemProps } from "~/data/items";
 
 export const mapAtom = atom<MapProps>(mapData);
+export const allItemsAtom = atom<ItemProps[]>(itemsData);
 export const buildModeAtom = atom(false);
 
 export default function PlayStage() {
@@ -53,6 +56,10 @@ export default function PlayStage() {
     //@ts-ignore
     controls.current.target.set(centerMap.w,0,centerMap.h);
   }, []);
+
+  useEffect(() => {
+    console.log(map)
+  }, [map])
 
   return <>
     {/* Controls */}

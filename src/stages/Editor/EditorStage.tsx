@@ -1,22 +1,30 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { atom, useAtom } from "jotai"
-import { MapProps, default as mapData } from "~/data/map";
+import { MapItemProps, default as mapData } from "~/data/map";
 import { Item } from "~/components/Item";
-import { Grid, OrbitControls } from "@react-three/drei";
+import { Grid, OrbitControls, ScrollControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { mapAtom } from "../Play/PlayStage";
 import { useGrid } from "~/hooks/useGrid";
-import { getItemByName } from "~/data/items";
+import Show from "~/components/Show";
+import { Shop } from "./Shop";
+import { Vector3 } from "three";
+import { ItemProps } from "~/data/items";
 
 export enum ItemActions {
   NONE = 0,
   MOVE = 1,
   ROTATE = 2,
+  DELETE = 3,
+  CLEAN_EVERYTHING = 4,
 }
 
-export const draggedItemAtom = atom(null);
+type Nullable<T> = T | null;
+
+export const draggedItemAtom = atom<Nullable<number>>(null);
 export const draggedItemRotationAtom = atom(0);
 export const itemActionAtom = atom<ItemActions>(ItemActions.NONE);
+export const shopModeAtom = atom(false);
 
 export default function EditorStage() {
 
@@ -37,6 +45,8 @@ export default function EditorStage() {
   const [itemAction, setItemAction] = useAtom(itemActionAtom);
   const [dragPosition, setDragPosition] = useState([0,0]);
   const [canDrop, setCanDrop] = useState(false);
+  const [shopMode, setShopMode] = useAtom(shopModeAtom);
+  const [editorCameraPostition, setEditorCameraPosition] = useState<Vector3>(new Vector3( 12, 7, 12 ));
 
   useEffect(() => {
     // if(buildMode) {
@@ -47,10 +57,37 @@ export default function EditorStage() {
     //   socket.emit("itemsUpdate", items);
     // }
     setItems(map?.items || []);
-    state.camera.position.set(12,7,12);
+    state.camera.position.set(
+      editorCameraPostition.x, 
+      editorCameraPostition.y, 
+      editorCameraPostition.z
+    );
     //@ts-ignore
     controls.current.target.set(centerMap.w,0,centerMap.h);
+
+    return () => {
+      // updateMapItems(items);
+      // map.items = items;
+      // setMap( map );
+    }
   }, []);
+
+  useEffect(() => {
+    if(shopMode) {
+      setEditorCameraPosition(state.camera.position);
+      state.camera.position.set(0,4,8);
+      // @ts-ignore
+      controls.current.target.set(0,0,0);
+    } else {
+      state.camera.position.set(
+        editorCameraPostition.x, 
+        editorCameraPostition.y, 
+        editorCameraPostition.z
+      );
+      // @ts-ignore
+      controls.current.target.set(centerMap.w,0,centerMap.h);
+    }
+  }, [shopMode])
 
   useEffect(() => {
     if(draggedItem === null) {
@@ -71,7 +108,24 @@ export default function EditorStage() {
         newItems[draggedItem].rotation = draggedItemRotation;
         return newItems;
       })
+      map.items = items;
+      setMap( map )
     }
+  }
+  
+  const deleteItem = () => {
+    if(draggedItem !== null) {
+      delete items[draggedItem];
+      map.items = items;
+      setMap( map )
+    }
+  }
+  
+  const deleteAllItems = () => {
+    setItems([])
+    map.items = items;
+    setMap( map );
+    setDraggedItem( null );
   }
 
   const onPlaneClicked = (e: any) => {
@@ -84,15 +138,30 @@ export default function EditorStage() {
     }
   };
 
+  const updateMapItems = useCallback((items: MapItemProps[]) => {
+    console.log("saving items", items)
+    map.items = items;
+    setMap( map )
+  }, [items]);
+
   useEffect(() => {
-    if (itemAction === ItemActions.ROTATE) {
-      saveItem();
-      setItemAction(ItemActions.NONE);
-    }
+    switch(itemAction) {
+      case ItemActions.ROTATE:
+        saveItem();
+        break;
+      case ItemActions.DELETE:
+        deleteItem();
+        break;
+      case ItemActions.CLEAN_EVERYTHING:
+        deleteAllItems();
+        break;
+      default:
+        break;
+    };
   }, [itemAction])
 
   useEffect(() => {
-    if(!draggedItem) return;
+    if(draggedItem === null || draggedItem === undefined) return;
 
     const item = items[draggedItem];
     const width = draggedItemRotation === 1 || draggedItemRotation === 3 ? item.size[1] : item.size[0];
@@ -137,6 +206,25 @@ export default function EditorStage() {
     setCanDrop(droppable);
   }, [dragPosition, draggedItem, items, draggedItemRotation])
 
+  const onItemSelected = ( item: ItemProps ) => {
+    setShopMode(false);
+    setItems((prev) => [
+      ...prev,
+      {
+        ...item,
+        gridPosition: [centerMap.w, centerMap.h],
+        tmp: true,  // tell its temporal
+      },
+    ]);
+    setDraggedItem(items.length);
+    setDraggedItemRotation(0);
+    setItemAction(ItemActions.MOVE);
+  };
+
+  useEffect(() => {
+    console.log(items)
+  }, [items])
+
   return <>
     {/* Controls */}
     <OrbitControls
@@ -147,47 +235,55 @@ export default function EditorStage() {
       minPolarAngle={0}
       maxPolarAngle={Math.PI / 2}
       screenSpacePanning={false}
-      //enableZoom={!shopMode}
+      enableZoom={!shopMode}
     />
 
-    {/* Items */}
-    {items.map((item, idx) => (
-      <Item
-        key={`${item.name}-${idx}`}
-        item={item}
-        onClick={() => {
-          // @ts-ignore
-          setDraggedItem((prev) => (prev === null ? idx : prev));
-          setDraggedItemRotation(item.rotation || 0);
-          setDragPosition(item.gridPosition);
-        } }     
-        isDragging={draggedItem === idx}
-        dragPosition={dragPosition}
-        dragRotation={draggedItemRotation}
-        canDrop={canDrop}
-      />
-      ))
-    }
+    <Show when={!shopMode}>
+      {/* Items */}
+      {items.map((item, idx) => (
+        <Item
+          key={`${item.name}-${idx}`}
+          item={item}
+          onClick={() => {
+            // @ts-ignore
+            setDraggedItem((prev) => (prev === null ? idx : prev));
+            setDraggedItemRotation(item.rotation || 0);
+            setDragPosition(item.gridPosition);
+          } }     
+          isDragging={draggedItem === idx}
+          dragPosition={dragPosition}
+          dragRotation={draggedItemRotation}
+          canDrop={canDrop}
+        />
+        ))
+      }
 
-    {/* Floor */}
-    <mesh rotation-x={-Math.PI / 2} position-y={-0.001}
-      onClick={onPlaneClicked}
-      onPointerMove={(e) => {
-        if(itemAction === ItemActions.MOVE) {
-          const newPosition = vector3ToGrid(e.point);
-          if (!dragPosition || newPosition[0] !== dragPosition[0] || newPosition[1] !== dragPosition[1]) {
-            setDragPosition(newPosition);
+      {/* Floor */}
+      <mesh rotation-x={-Math.PI / 2} position-y={-0.001}
+        onClick={onPlaneClicked}
+        onPointerMove={(e) => {
+          if(itemAction === ItemActions.MOVE) {
+            const newPosition = vector3ToGrid(e.point);
+            if (!dragPosition || newPosition[0] !== dragPosition[0] || newPosition[1] !== dragPosition[1]) {
+              setDragPosition(newPosition);
+            }
           }
-        }
-      }}
-      position-x={map.size[0] / 2}
-      position-z={map.size[1] / 2}
-      receiveShadow
-    >
-      <planeGeometry args={[map.size[0], map.size[1]]} />
-      <meshStandardMaterial color="#f0f0f0" />
-    </mesh>
+        }}
+        position-x={map.size[0] / 2}
+        position-z={map.size[1] / 2}
+        receiveShadow
+      >
+        <planeGeometry args={[map.size[0], map.size[1]]} />
+        <meshStandardMaterial color="#f0f0f0" />
+      </mesh>
 
-    <Grid infiniteGrid fadeDistance={50} fadeStrength={5}/>
+      <Grid infiniteGrid fadeDistance={50} fadeStrength={5}/>
+    </Show>
+
+    <Show when={shopMode}>
+      <ScrollControls pages={4}>
+        <Shop onItemSelected={onItemSelected}/>
+      </ScrollControls>
+    </Show>
   </>
 }

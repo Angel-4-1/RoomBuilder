@@ -50,6 +50,12 @@ export const TRANSLATIONS = {
       item: {
         rotate: ["Rotate item", "Girar elemento"],
         move: ["Move item", "Mover elemento"],
+        delete: ["Delete item", "Eliminar elemento"],
+      },
+      shop: ["Shop", "Tienda"],
+      clean: {
+        description: ["Remove everything", "Eliminar todo"],
+        confirmation: ["This action will remove all the items\nAre you sure ?", "Esta acción va a eliminar todos los items\n¿Desea continuar?"],
       }
     }
   }
