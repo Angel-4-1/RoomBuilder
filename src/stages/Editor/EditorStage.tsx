@@ -60,9 +60,6 @@ export default function EditorStage() {
   }, []);
 
   useEffect(() => {
-    console.log(shopMode)
-    console.log(state.camera.position)
-    console.log(editorCameraPostition)
     if(shopMode) {
       //setEditorCameraPosition(state.camera.position);
       state.camera.position.set(0,4,8);
@@ -108,6 +105,7 @@ export default function EditorStage() {
       delete items[draggedItem];
       map.items = items;
       setMap( map )
+      setDraggedItem(null);
     }
   }
   

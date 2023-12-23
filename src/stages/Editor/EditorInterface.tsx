@@ -8,6 +8,7 @@ import { STAGES, STAGES_MAP } from "~/constants";
 import { buildModeAtom, mapAtom } from "../Play/PlayStage";
 import { ItemActions, draggedItemAtom, draggedItemRotationAtom, itemActionAtom, shopModeAtom } from "./EditorStage";
 import Show from "~/components/Show";
+import { isNullOrUndefined } from "~/utils/utils";
 
 const AlertType = {
   SUCCESS: "alert-success",
@@ -77,7 +78,7 @@ export default function EditorInterface() {
 
   /** ITEM ACTIONS **/
   const onRotateClick = () => {
-    if (!draggedItem) {
+    if (isNullOrUndefined(draggedItem)) {
       return;
     }
 
@@ -88,7 +89,7 @@ export default function EditorInterface() {
 	};
 
   const onMoveClick = () => {
-    if (!draggedItem) {
+    if (isNullOrUndefined(draggedItem)) {
       return;
     }
 
@@ -96,7 +97,7 @@ export default function EditorInterface() {
   }
   
   const onDeleteClick = () => {
-    if (!draggedItem) {
+    if (isNullOrUndefined(draggedItem)) {
       return;
     }
 
@@ -223,7 +224,7 @@ export default function EditorInterface() {
           </button>
         </div>
 
-        <Show when={(!(draggedItem === null || draggedItem === undefined))}>
+        <Show when={(!isNullOrUndefined(draggedItem))}>
           <div className={"editor-item-actions-container"}>
             <button onClick={onRotateClick}>
               {useTranslation(TRANSLATIONS.editorStage.buttons.item.rotate)}
@@ -238,7 +239,7 @@ export default function EditorInterface() {
 
             <button
               onClick={onDeleteClick}
-              className={draggedItem ? "button-red" : "button-disabled"}
+              className={"button-red"}
             >
               {useTranslation(TRANSLATIONS.editorStage.buttons.item.delete)}
             </button>
