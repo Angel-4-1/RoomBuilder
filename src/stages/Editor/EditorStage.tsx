@@ -49,13 +49,6 @@ export default function EditorStage() {
   const [editorCameraPostition, setEditorCameraPosition] = useState<Vector3>(new Vector3( 12, 7, 12 ));
 
   useEffect(() => {
-    // if(buildMode) {
-    //   setItems(map?.items || []);
-    //   state.camera.position.set(8,8,8);
-    //   controls.current.target.set(0,0,0);
-    // } else {
-    //   socket.emit("itemsUpdate", items);
-    // }
     setItems(map?.items || []);
     state.camera.position.set(
       editorCameraPostition.x, 
@@ -64,17 +57,14 @@ export default function EditorStage() {
     );
     //@ts-ignore
     controls.current.target.set(centerMap.w,0,centerMap.h);
-
-    return () => {
-      // updateMapItems(items);
-      // map.items = items;
-      // setMap( map );
-    }
   }, []);
 
   useEffect(() => {
+    console.log(shopMode)
+    console.log(state.camera.position)
+    console.log(editorCameraPostition)
     if(shopMode) {
-      setEditorCameraPosition(state.camera.position);
+      //setEditorCameraPosition(state.camera.position);
       state.camera.position.set(0,4,8);
       // @ts-ignore
       controls.current.target.set(0,0,0);
@@ -137,12 +127,6 @@ export default function EditorStage() {
       setItemAction(ItemActions.NONE);
     }
   };
-
-  const updateMapItems = useCallback((items: MapItemProps[]) => {
-    console.log("saving items", items)
-    map.items = items;
-    setMap( map )
-  }, [items]);
 
   useEffect(() => {
     switch(itemAction) {
@@ -222,8 +206,15 @@ export default function EditorStage() {
   };
 
   useEffect(() => {
-    console.log(items)
+    console.log( "items updated")
+    map.items = items;
+    setMap( map );
   }, [items])
+  
+  useEffect(() => {
+    console.log( "map updated")
+    setItems( map.items );
+  }, [map])
 
   return <>
     {/* Controls */}

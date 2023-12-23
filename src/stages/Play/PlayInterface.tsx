@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAtom } from "jotai";
 import { languageAtom, stageAtom } from "~/Experience";
 import { useTranslation } from "~/utils/useTranslation";
@@ -12,10 +12,6 @@ export default function PlayInterface() {
   const [stage, setStage] = useAtom(stageAtom);
   const [buildMode, setBuildMode] = useAtom(buildModeAtom);
   const [map, setMap] = useAtom(mapAtom);
-
-  const fileUploadMsg = useTranslation(TRANSLATIONS.playStage.buttons.map.select);
-  const [fileName, setFileName] = useState(fileUploadMsg);
-  const [fileSelected, seFileSelected] = useState(false);
 
   const onBackClick = () => {
     setStage(STAGES[STAGES_MAP.INTRO_STAGE]);
@@ -44,55 +40,6 @@ export default function PlayInterface() {
     download(JSON.stringify(map), fileName, "text/plain");
   }
 
-  function clearFileInput(ctrl: any) {
-    try {
-      ctrl.value = null;
-    } catch(ex) { }
-
-    if (ctrl.value) {
-      ctrl.parentNode.replaceChild(ctrl.cloneNode(true), ctrl);
-    }
-
-    setFileName(fileUploadMsg);
-    seFileSelected(false);
-  }
-
-  const loadMap = () => {
-    // @ts-ignore
-    let fileToLoad = document.getElementById("fileToLoad")?.files[0];
-    if (!fileToLoad) {
-      console.error("ERROR: No file uploaded")
-      return;
-    }
-  
-    var fileReader = new FileReader();
-    fileReader.onload = function(fileLoadedEvent){
-      // @ts-ignore
-      let textFromFileLoaded = fileLoadedEvent.target.result;
-      let newMap = JSON.parse(textFromFileLoaded as string);
-      setMap( newMap );
-      clearFileInput(document.getElementById("fileToLoad"));
-    };
-  
-    fileReader.readAsText(fileToLoad, "UTF-8");
-  }
-
-  const file = document.querySelector('#fileToLoad');
-  file?.addEventListener('change', (e: any) => {
-    // Get the selected file
-    const [file] = e.target.files;
-    if (!file) return;
-
-    // Get the file name and size
-    const { name: fileName, size } = file;
-    // Convert size in bytes to kilo bytes
-    const fileSize = (size / 1000).toFixed(2);
-    // Set the text content
-    const fileNameAndSize = `${fileName} - ${fileSize}KB`;
-    setFileName(fileNameAndSize);
-    seFileSelected(true);
-  });
-
   return <div className="play-container">
     <div className="play-elements-container">
       <div className="play-buttons-container">
@@ -108,31 +55,6 @@ export default function PlayInterface() {
           {useTranslation(TRANSLATIONS.playStage.buttons.map.download)}
         </button>
       </div>
-
-      <label htmlFor="fileToLoad" className="input-button">
-        {fileName}
-          <input
-          type="file"
-          id="fileToLoad"
-          accept=".json,.txt"
-          className="input-button"
-        />
-      </label>
-
-      <input
-        type="file"
-        id="fileToLoad"
-        accept=".json,.txt"
-        className="input-button"
-      />
-
-      <button onClick={loadMap}
-        className={fileSelected ? "button-enabled" : "button-disabled"}
-        disabled={!fileSelected}
-      >
-        {useTranslation(TRANSLATIONS.playStage.buttons.map.load)}
-      </button>
-
-      </div>
+    </div>
   </div>
 }

@@ -38,8 +38,6 @@ export const TRANSLATIONS = {
       editor: ["Go to editor", "Ir al editor"],
       map: {
         download: ["Download map", "Descargar mapa"],
-        select: ["Select File", "Seleccionar archivo"],
-        load: ["Load map", "Cargar mapa"],
       }
     }
   },
@@ -56,7 +54,19 @@ export const TRANSLATIONS = {
       clean: {
         description: ["Remove everything", "Eliminar todo"],
         confirmation: ["This action will remove all the items\nAre you sure ?", "Esta acción va a eliminar todos los items\n¿Desea continuar?"],
+      },
+      map: {
+        download: ["Download map", "Descargar mapa"],
+        select: ["Select File", "Seleccionar archivo"],
+        load: ["Load map", "Cargar mapa"],
       }
+    },
+    alertMsg: {
+      map: {
+        success: ["Map successfully uploaded", "Mapa cargado correctamente"],
+        error: ["There was a problem loading the map, check that the file is valid", "Hubo un problema al cargar el mapa, comprueba que el archivo sea válido"],
+      },
+      clean: ["All items have been removed", "Todos los elementos han sido eliminados"]
     }
   }
 }
