@@ -203,6 +203,14 @@ export default function EditorStage() {
     setItemAction(ItemActions.MOVE);
   };
 
+  // Catch updateStage event
+  document.addEventListener("onItemSelectedForShop", function (e) {
+    // @ts-ignore
+    const itemSelected = e.detail;
+    console.log(itemSelected)
+    onItemSelected(itemSelected)
+  });
+
   useEffect(() => {
     console.log( "items updated")
     map.items = items;

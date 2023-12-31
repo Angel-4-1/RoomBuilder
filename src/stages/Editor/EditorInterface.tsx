@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useAtom } from "jotai";
 import { stageAtom } from "~/Experience";
 import { useTranslation } from "~/utils/useTranslation";
 import { TRANSLATIONS } from "~/translations";
 import './style.css'
 import { STAGES, STAGES_MAP } from "~/constants";
-import { buildModeAtom, mapAtom } from "../Play/PlayStage";
+import { allItemsAtom, buildModeAtom, mapAtom } from "../Play/PlayStage";
 import { ItemActions, draggedItemAtom, draggedItemRotationAtom, itemActionAtom, shopModeAtom } from "./EditorStage";
 import Show from "~/components/Show";
 import { isNullOrUndefined } from "~/utils/utils";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import { ItemEditor } from "./ItemEditor";
 
 const AlertType = {
   SUCCESS: "alert-success",
@@ -70,7 +73,7 @@ export default function EditorInterface() {
   const [draggedItem, setDraggedItem] = useAtom(draggedItemAtom);
   const [itemAction, setItemAction] = useAtom(itemActionAtom);
   const [shopMode, setShopMode] = useAtom(shopModeAtom);
-	
+
   const onPlayClick = () => {
 		setStage(STAGES[STAGES_MAP.PLAY_STAGE]);
     setBuildMode(false);
@@ -104,6 +107,15 @@ export default function EditorInterface() {
     setItemAction((prev) => prev === ItemActions.MOVE ? ItemActions.NONE : ItemActions.DELETE);
   }
 
+  useEffect(() => {
+    if(draggedItem !== null && draggedItem !== undefined && draggedItem < items.length) {
+      // @ts-ignore
+      setItemSelected(items[draggedItem]);
+    } else {
+      setItemSelected(null);
+    }
+  }, [draggedItem])
+
   /** GO TO THE SHOP **/
   const onShopClick = () => {
     setShopMode(!shopMode);
@@ -121,6 +133,7 @@ export default function EditorInterface() {
 
   /** LOAD MAP **/
   const [map, setMap] = useAtom(mapAtom);
+  const [items, setItems] = useState( map.items );
   const fileUploadMsg = useTranslation(TRANSLATIONS.editorStage.buttons.map.select);
   const mapSuccessMsg = useTranslation(TRANSLATIONS.editorStage.alertMsg.map.success);
   const mapErrorMsg = useTranslation(TRANSLATIONS.editorStage.alertMsg.map.error);
@@ -176,9 +189,51 @@ export default function EditorInterface() {
     const fileNameAndSize = `${fileName} - ${fileSize}KB`;
     setFileName(fileNameAndSize);
     seFileSelected(true);
-  });  
+  });
+
+  const [allItems] = useAtom(allItemsAtom);
+
+  const [itemSelected, setItemSelected] = useState(null);
+
+  const shopItems = useMemo(() => {
+    
+    return Object.values(allItems).map((item, index) => {
+      const event = new CustomEvent("onItemSelectedForShop", { detail: item });
+
+      const onClick = () => {
+        document.dispatchEvent(event)
+      }
+
+      const onMouseEnter = () => {
+        // @ts-ignore
+        setItemSelected(item);
+      }
+      
+      const onMouseLeave = () => {
+        // @ts-ignore
+        setItemSelected(null);
+      }
+
+      return (
+        <>
+          <div className="editor-items-row" key={index}
+            onClick={onClick}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            // style={{
+            //   backgroundImage: `url(${item.image})`,
+            //   backgroundRepeat: 'no-repeat',
+            //   backgroundSize: 'cover',
+            //   backgroundPosition: 'center'
+            // }}
+          />
+        </>
+      )
+    })
+  }, [items])
 
 	return <>
+  <div>
     <div className="editor-container">
       <div className="editor-elements-container">
         <div className="editor-buttons-container">
@@ -186,9 +241,9 @@ export default function EditorInterface() {
             {useTranslation(TRANSLATIONS.editorStage.buttons.stopEditing)}
           </button>
 
-          <button onClick={onShopClick}>
+          {/* <button onClick={onShopClick}>
             {useTranslation(TRANSLATIONS.editorStage.buttons.shop)}
-          </button>
+          </button> */}
           
           <button
             onClick={onCleanClick}
@@ -246,7 +301,40 @@ export default function EditorInterface() {
           </div>
         </Show>
       </div>
+      
+      <div className="editor-items-container">
+        {shopItems}
+      </div>
     </div>
+
+    <div className="editor-item-preview">
+      {useTranslation(TRANSLATIONS.editorStage.itemPreviewm.title)}
+    </div>
+
+    <Canvas className="previewItem"
+      camera={{
+        fov: 45,
+        near: 0.1,
+        far: 200,
+        position: [1.75, 3.5, 5],
+      }}
+    >
+      <color attach="background" args={['#faf8eb']} />
+      <OrbitControls target={[ 0, 0.5, 0]}/>
+      <Show when={itemSelected !== null}>
+
+        <ambientLight intensity={0.5} />
+        <directionalLight intensity={0.3} castShadow />
+
+        {/* Item Preview */}
+        <ItemEditor 
+          // @ts-ignore
+          item={itemSelected} 
+        />
+      </Show>
+    </Canvas>
+
+  </div>
 
     <div id="alert-container" />
   </>

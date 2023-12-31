@@ -61,6 +61,9 @@ export const TRANSLATIONS = {
         load: ["Load map", "Cargar mapa"],
       }
     },
+    itemPreviewm : {
+      title: ["Item preview", "Vista previa del elemento"]
+    },
     alertMsg: {
       map: {
         success: ["Map successfully uploaded", "Mapa cargado correctamente"],

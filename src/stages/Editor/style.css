@@ -50,8 +50,7 @@
   right: 20px;
 }
 
-/* ALERT RELATED CLASS (START) */
-
+/* ALERT */
 #alert-container {
   max-height: 100%;
   position: fixed;
@@ -118,4 +117,65 @@
   border-top: solid 2px #d8d8d8;
 }
 
-/* ALERT RELATED CLASS (END) */
+/* ITEMS */
+.editor-items-container {
+  /* FLEX */
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+
+  justify-content: center;
+  align-items: center;
+  max-width: 25vw;
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 2vw;
+
+  position: fixed;
+  background: rgba(0,0,0,0.1);
+  backdrop-filter: blur(1px);
+  border-radius: 10px;
+}
+
+/* Responsive layout - makes a one column-layout instead of two-column layout */
+/* @media (max-width: 800px) {
+  .editor-items-container {
+    grid-template-columns: auto;
+  }
+} */
+.editor-items-row {
+  padding: 5px;
+  margin: 5px;
+  flex: 1 0 20%;
+  position: relative;
+  width: 20px;
+  height: 50px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  border: 3px solid rgb(255, 255, 255);
+}
+
+.editor-items-row:hover {
+  border: 3px solid rgb(173, 172, 172);
+}
+
+/* PREVIEW ITEM */
+.editor-item-preview {
+  position: absolute !important;
+  top: 1em;
+  right: 1.5em;
+}
+
+.previewItem {
+  position: absolute !important;
+  top: 3em;
+  right: 1em;
+  max-width: calc(210px - 2em);
+  max-height: calc(210px - 2em);
+  border-radius: 10px;
+  border: bisque 2px solid;
+}
