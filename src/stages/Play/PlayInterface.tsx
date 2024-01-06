@@ -1,11 +1,11 @@
 import React from "react";
 import { useAtom } from "jotai";
-import { languageAtom, stageAtom } from "~/Experience";
+import { languageAtom, mapAtom, stageAtom } from "~/Experience";
 import { useTranslation } from "~/utils/useTranslation";
 import { TRANSLATIONS } from "~/translations";
 import './style.css'
 import { STAGES, STAGES_MAP } from "~/constants";
-import { buildModeAtom, mapAtom } from "./PlayStage";
+import { buildModeAtom } from "./PlayStage";
 
 export default function PlayInterface() {
   const [language] = useAtom(languageAtom);

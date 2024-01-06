@@ -23,7 +23,11 @@ export default function IntroInterface() {
 
 	return <div className="intro-container">
 		<div className="title">
-			<h1 className="white-text">{useTranslation(TRANSLATIONS.introStage)}</h1>
+			<h1 className="white-text">{useTranslation(TRANSLATIONS.introStage.title)}</h1>
+		</div>
+
+		<div className="subtitle">
+			<h3 className="white-text" style={{ margin: 0 }}>{useTranslation(TRANSLATIONS.introStage.subtitle)}</h3>
 		</div>
 
 		<div className="languages">

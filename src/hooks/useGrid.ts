@@ -1,6 +1,6 @@
 import { useAtom } from "jotai"
 import * as THREE from "three"
-import { mapAtom } from "~/stages/Play/PlayStage";
+import { mapAtom } from "~/Experience";
 
 export const useGrid = () => {
   const [ map ] = useAtom( mapAtom );

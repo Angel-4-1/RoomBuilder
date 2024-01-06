@@ -5,8 +5,9 @@ import { useGLTF, useScroll } from "@react-three/drei";
 import { SkeletonUtils } from "three-stdlib"
 import { MapItemProps } from "~/data/map";
 import { useGrid } from "~/hooks/useGrid";
-import { allItemsAtom, mapAtom } from "../Play/PlayStage";
+import { allItemsAtom } from "../Play/PlayStage";
 import { ItemProps } from "~/data/items";
+import { mapAtom } from "~/Experience";
 
 interface ShopItemsProps {
   item: ItemProps;

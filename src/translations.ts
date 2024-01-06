@@ -1,5 +1,11 @@
 export const TRANSLATIONS = {
-  introStage: ["WELCOME", "BIENVENIDO"],
+  introStage: {
+    title: ["ROOM BUILDER", "ROOM BUILDER"],
+    subtitle: [
+      "A place where you can design scenes using different types of objects", 
+      "Un lugar en el que podras diseñar escenas utilizando distintos tipos de objetos"
+    ],
+  },
 
   controls: {
     forward: {

@@ -4,12 +4,12 @@ import { MapItemProps, default as mapData } from "~/data/map";
 import { Item } from "~/components/Item";
 import { Grid, OrbitControls, ScrollControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { mapAtom } from "../Play/PlayStage";
 import { useGrid } from "~/hooks/useGrid";
 import Show from "~/components/Show";
 import { Shop } from "./Shop";
 import { Vector3 } from "three";
 import { ItemProps } from "~/data/items";
+import { mapAtom } from "~/Experience";
 
 export enum ItemActions {
   NONE = 0,

@@ -5,7 +5,8 @@ import { useAtom } from "jotai";
 import { useGrid } from '../hooks/useGrid';
 import Show from "./Show"
 import { MapItemProps } from '~/data/map';
-import { buildModeAtom, mapAtom } from '~/stages/Play/PlayStage';
+import { buildModeAtom } from '~/stages/Play/PlayStage';
+import { mapAtom } from '~/Experience';
 
 interface ItemElementProps {
   item: MapItemProps;

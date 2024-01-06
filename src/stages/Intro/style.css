@@ -23,6 +23,11 @@
     color: #fff;
 }
 
+.subtitle {
+    text-align: center;
+    margin-left: 15px;
+}
+
 /** LANGUAGES **/
 .languages {   
     margin-top: 50px;

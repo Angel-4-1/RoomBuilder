@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useAtom } from "jotai";
-import { stageAtom } from "~/Experience";
+import { mapAtom, stageAtom } from "~/Experience";
 import { useTranslation } from "~/utils/useTranslation";
 import { TRANSLATIONS } from "~/translations";
 import './style.css'
 import { STAGES, STAGES_MAP } from "~/constants";
-import { allItemsAtom, buildModeAtom, mapAtom } from "../Play/PlayStage";
+import { allItemsAtom, buildModeAtom } from "../Play/PlayStage";
 import { ItemActions, draggedItemAtom, draggedItemRotationAtom, itemActionAtom, shopModeAtom } from "./EditorStage";
 import Show from "~/components/Show";
 import { isNullOrUndefined } from "~/utils/utils";
@@ -195,8 +195,7 @@ export default function EditorInterface() {
 
   const [itemSelected, setItemSelected] = useState(null);
 
-  const shopItems = useMemo(() => {
-    
+  const shopItems = useMemo(() => { 
     return Object.values(allItems).map((item, index) => {
       const event = new CustomEvent("onItemSelectedForShop", { detail: item });
 
@@ -232,6 +231,15 @@ export default function EditorInterface() {
     })
   }, [items])
 
+  const onChangeMapSize = () => {
+    // @ts-ignore
+    const widthMap = document.getElementById("widthMap")?.value;
+    // @ts-ignore
+    const heightMap = document.getElementById("heightMap")?.value;
+    map.size = [widthMap, heightMap];
+    setMap(map);
+  }
+
 	return <>
   <div>
     <div className="editor-container">
@@ -251,6 +259,8 @@ export default function EditorInterface() {
           >
             {useTranslation(TRANSLATIONS.editorStage.buttons.clean.description)}
           </button>
+
+
         </div>
         
         <div>
@@ -276,6 +286,22 @@ export default function EditorInterface() {
             disabled={!fileSelected}
           >
             {useTranslation(TRANSLATIONS.editorStage.buttons.map.load)}
+          </button>
+        </div>
+
+        <div>
+          <label htmlFor="widthMap">Width (between 5 and 20)</label>
+          <input type="number" id="widthMap" name="quantity" min="5" max="20" defaultValue={map.size[0]}>
+          </input>
+          <br/>
+          
+          <label htmlFor="heightMap">Height (between 5 and 20)</label>
+          <input type="number" id="heightMap" name="quantity" min="5" max="20" defaultValue={map.size[1]}>
+          </input>
+          <br/>
+
+          <button onClick={onChangeMapSize}>
+            Change
           </button>
         </div>
 
