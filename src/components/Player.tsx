@@ -10,19 +10,19 @@ import { useFrame } from '@react-three/fiber';
 import { useGrid } from '../hooks/useGrid';
 import * as THREE from "three"
 
-const PLAYER_MODEL_GLB = "/models/character.glb";
+const PLAYER_MODEL_GLB = "models/character.glb";
 const MOVEMENT_SPEED = 0.05;
 const ANIMATIONS = {
   IDLE: {
-    path: "/models/animations/M_Standing_Idle_001.glb",
+    path: "models/animations/M_Standing_Idle_001.glb",
     name: "M_Standing_Idle_001"
   },
   WALK: {
-    path: "/models/animations/M_Walk_001.glb",
+    path: "models/animations/M_Walk_001.glb",
     name: "M_Walk_001",
   },
   DANCE: {
-    path: "/models/animations/M_Dances_001.glb",
+    path: "models/animations/M_Dances_001.glb",
     name: "M_Dances_001",
   },
 };
@@ -77,11 +77,13 @@ export function Player({
 
   useEffect(() => {
     actions[animation]?.reset().fadeIn(0.32).play();
+    //console.log(animation)
+    // actions[animation]?.fadeIn(0.32).play();
 
     return () => actions[animation]?.fadeOut(0.32);
   }, [animation])
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     // Some of the ready player me animations are not fixed (they move)
     // so we need to force them not to move
     // the bone of the animation which is causing it is 'Hips'
