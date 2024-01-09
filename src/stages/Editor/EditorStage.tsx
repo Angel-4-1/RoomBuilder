@@ -9,7 +9,7 @@ import Show from "~/components/Show";
 import { Shop } from "./Shop";
 import { Vector3 } from "three";
 import { ItemProps } from "~/data/items";
-import { mapAtom } from "~/Experience";
+import { mapAtom, userAtom } from "~/Experience";
 
 export enum ItemActions {
   NONE = 0,
@@ -31,6 +31,8 @@ export default function EditorStage() {
   const [map, setMap] = useAtom(mapAtom);
   const [items, setItems] = useState( map.items );
   const { vector3ToGrid } = useGrid();
+
+  const [user, setUser] = useAtom(userAtom);
 
   const centerMap = {
     w: map.size[0] / 2,
@@ -58,6 +60,15 @@ export default function EditorStage() {
     //@ts-ignore
     controls.current.target.set(centerMap.w,0,centerMap.h);
   }, []);
+
+  useEffect(() => {
+    if (user !== null) {
+      // That way we will force PlayStage to reposition again the user
+      user.isReady = false;
+      user.path = [];
+      setUser( user );
+    }
+  }, [user])
 
   useEffect(() => {
     if(shopMode) {
@@ -242,6 +253,7 @@ export default function EditorStage() {
           key={`${item.name}-${idx}`}
           item={item}
           onClick={() => {
+            console.log("clicked")
             // @ts-ignore
             setDraggedItem((prev) => (prev === null ? idx : prev));
             setDraggedItemRotation(item.rotation || 0);

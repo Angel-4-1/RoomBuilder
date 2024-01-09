@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.2.13 .\\public\\models\\Animated Woman.glb -o src/compone
 */
 
 import React, { useEffect, useRef, useState, useMemo } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF, useAnimations, useFBX } from '@react-three/drei'
 import { SkeletonUtils } from "three-stdlib"
 import { useFrame } from '@react-three/fiber';
 import { useGrid } from '../hooks/useGrid';
@@ -15,10 +15,12 @@ const MOVEMENT_SPEED = 0.05;
 const ANIMATIONS = {
   IDLE: {
     path: "models/animations/M_Standing_Idle_001.glb",
+    pathFBX: "models/animations/Idle.fbx",
     name: "M_Standing_Idle_001"
   },
   WALK: {
     path: "models/animations/M_Walk_001.glb",
+    pathFBX: "models/animations/Walking.fbx",
     name: "M_Walk_001",
   },
   DANCE: {
@@ -37,11 +39,11 @@ export function Player({
   position,
 }: PlayerProps) {
   const playerPosition = useMemo(() => position, []);
-  const avatar = useRef();
+  const body = useRef();
   const [ path, setPath ] = useState<THREE.Vector3[]>();
   const { gridToVector3 } = useGrid();
   
-  const group = useRef();
+  //const group = useRef();
   const { scene } = useGLTF( PLAYER_MODEL_GLB );
   
   // Skinned meshes cannot be re-used in threejs without cloning them
@@ -61,6 +63,10 @@ export function Player({
   const { animations: walkAnimation } = useGLTF( ANIMATIONS.WALK.path );
   const { animations: danceAnimation } = useGLTF( ANIMATIONS.DANCE.path );
 
+  // Load animations FBX
+  const { animations: idleAnimationFBX } = useFBX( ANIMATIONS.IDLE.pathFBX );
+  const { animations: walkAnimationFBX } = useFBX( ANIMATIONS.WALK.pathFBX );
+
   // Rename the name of the animation
   // idleAnimation[0].name = "idle";
   // walkAnimation[0].name = "walk";
@@ -69,8 +75,8 @@ export function Player({
   const { actions } = useAnimations([
     idleAnimation[0],
     walkAnimation[0],
-    danceAnimation[0],
-  ], avatar);
+    // danceAnimation[0],
+  ], body);
 
   // const [isDancing, setIsDancing] = useState(false);
   const [animation, setAnimation] = useState(ANIMATIONS.IDLE.name);
@@ -87,12 +93,12 @@ export function Player({
     // Some of the ready player me animations are not fixed (they move)
     // so we need to force them not to move
     // the bone of the animation which is causing it is 'Hips'
-    if(avatar.current) {
-      const hips = avatar.current.getObjectByName("Hips");
+    if(body.current) {
+      const hips = body.current.getObjectByName("Hips");
       hips.position.set(0, hips.position.y, 0);
     }
 
-    const pos = group.current.position;
+    const pos = body.current.position;
     
     if (path?.length && pos.distanceTo(path[0]) > 0.1) {
       const direction = pos
@@ -101,8 +107,8 @@ export function Player({
         .normalize()
         .multiplyScalar(MOVEMENT_SPEED);
       
-      group.current.position.sub( direction );
-      group.current.lookAt( path[0] );
+      body.current.position.sub( direction );
+      body.current.lookAt( path[0] );
       setAnimation(ANIMATIONS.WALK.name);
       // setIsDancing(false)
     } else if (path?.length) {
@@ -135,8 +141,8 @@ export function Player({
   }, [])
 
   return (
-    <group ref={group} position={playerPosition} dispose={null} name={"player"}>
-      <primitive object={clone} ref={avatar}/>
+    <group ref={body} position={playerPosition} dispose={null} name={"player"}>
+      <primitive object={clone} />
     </group>
   )
 }
