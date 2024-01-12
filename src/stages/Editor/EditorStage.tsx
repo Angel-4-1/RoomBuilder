@@ -218,7 +218,6 @@ export default function EditorStage() {
   document.addEventListener("onItemSelectedForShop", function (e) {
     // @ts-ignore
     const itemSelected = e.detail;
-    console.log(itemSelected)
     onItemSelected(itemSelected)
   });
 
@@ -263,6 +262,7 @@ export default function EditorStage() {
           dragPosition={dragPosition}
           dragRotation={draggedItemRotation}
           canDrop={canDrop}
+          isDebug={true}
         />
         ))
       }

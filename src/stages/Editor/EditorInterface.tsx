@@ -248,10 +248,6 @@ export default function EditorInterface() {
           <button onClick={onPlayClick}>
             {useTranslation(TRANSLATIONS.editorStage.buttons.stopEditing)}
           </button>
-
-          {/* <button onClick={onShopClick}>
-            {useTranslation(TRANSLATIONS.editorStage.buttons.shop)}
-          </button> */}
           
           <button
             onClick={onCleanClick}

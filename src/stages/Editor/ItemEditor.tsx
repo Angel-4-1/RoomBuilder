@@ -12,7 +12,7 @@ export const ItemEditor = ({
   item,
 }: ItemEditorProps) => {
 
-  const { name, size } = item;
+  const { name } = item;
 
   const { scene } = useGLTF(`models/items/${name}.glb`);
 
@@ -37,17 +37,8 @@ export const ItemEditor = ({
   });
 
   return <>
-    {/* <mesh>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshBasicMaterial color={"green"}/>
-    </mesh> */}
-
-<group>
-    <primitive ref={ref}
-      object={clone}
-      
-      // rotation-y={ (rotation || 0) * Math.PI / 2}
-    />
-  </group>
+    <group>
+      <primitive ref={ref} object={clone} />
+    </group>
   </>
 }

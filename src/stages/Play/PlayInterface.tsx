@@ -1,6 +1,6 @@
 import React from "react";
 import { useAtom } from "jotai";
-import { languageAtom, mapAtom, stageAtom } from "~/Experience";
+import { isDayAtom, languageAtom, mapAtom, stageAtom } from "~/Experience";
 import { useTranslation } from "~/utils/useTranslation";
 import { TRANSLATIONS } from "~/translations";
 import './style.css'
@@ -12,6 +12,7 @@ export default function PlayInterface() {
   const [stage, setStage] = useAtom(stageAtom);
   const [buildMode, setBuildMode] = useAtom(buildModeAtom);
   const [map, setMap] = useAtom(mapAtom);
+  const [isDay, setIsDay] = useAtom(isDayAtom);
 
   const onBackClick = () => {
     setStage(STAGES[STAGES_MAP.INTRO_STAGE]);
@@ -40,6 +41,10 @@ export default function PlayInterface() {
     download(JSON.stringify(map), fileName, "text/plain");
   }
 
+  const onChangeDay = () => {
+    setIsDay((prev) => !prev);
+  }
+
   return <div className="play-container">
     <div className="play-elements-container">
       <div className="play-buttons-container">
@@ -54,6 +59,11 @@ export default function PlayInterface() {
         <button onClick={onDownload}>
           {useTranslation(TRANSLATIONS.playStage.buttons.map.download)}
         </button>
+
+        <label className="switch">
+          <input type="checkbox" onChange={onChangeDay} checked={!isDay}/>
+          <div className="slider"></div>
+        </label>
       </div>
     </div>
   </div>

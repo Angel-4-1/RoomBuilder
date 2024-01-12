@@ -7,6 +7,7 @@ import PlayStage from './stages/Play/PlayStage';
 import Show from './components/Show';
 import EditorStage from './stages/Editor/EditorStage';
 import { MapProps, default as mapData } from './data/map';
+import { isNullOrUndefined } from './utils/utils';
 
 export interface Character {
   id: number;
@@ -28,13 +29,14 @@ export const stageAtom = atom<StageProps>(STAGES[0]);
 export const charactersAtom = atom<Character[]>([]);
 export const userAtom = atom<PlayerProps|null>(null);
 export const mapAtom = atom<MapProps>(mapData);
+export const isDayAtom = atom<boolean>(true);
 
 /** Main Experience **/
 export default function Experience() {
 
   const [stage, setStage] = useAtom(stageAtom);
   const [user, setUser] = useAtom(userAtom);
-  const [map, setMap] = useAtom(mapAtom);
+  const [isDay, setIsDay] = useAtom(isDayAtom);
 
   useEffect(() => {
     setUser({
@@ -43,17 +45,33 @@ export default function Experience() {
     });
   }, []);
 
+  useEffect(() => {
+    console.log("isDay", isDay)
+    const root = document.getElementById('root');
+    if(isNullOrUndefined(root)) {
+      return;
+    }
+
+    if(isDay) {
+      root?.classList.remove("night-bg")
+      root?.classList.add("day-bg")
+    } else {
+      root?.classList.remove("day-bg")
+      root?.classList.add("night-bg")
+    }
+  }, [isDay])
+
   return (
     <>
       <OrbitControls makeDefault />
 
       <Show when={stage.id === STAGES_MAP.PLAY_STAGE}>
-        <Lights isDebug={ false } />
+        <Lights isDebug={ false } isDay={isDay} />
         <PlayStage />
       </Show>
       
       <Show when={stage.id === STAGES_MAP.EDITOR_STAGE}>
-        <Lights isDebug={ true } />
+        <Lights isDebug={ true } isDay={isDay} />
         <EditorStage />
       </Show>
     </>

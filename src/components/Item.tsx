@@ -7,6 +7,7 @@ import Show from "./Show"
 import { MapItemProps } from '~/data/map';
 import { buildModeAtom } from '~/stages/Play/PlayStage';
 import { mapAtom } from '~/Experience';
+import { Box3 } from 'three';
 
 interface ItemElementProps {
   item: MapItemProps;
@@ -15,6 +16,7 @@ interface ItemElementProps {
   dragPosition?: any;
   dragRotation?: any;
   canDrop: boolean;
+  isDebug?: boolean;
 }
 
 export const Item = ({
@@ -24,12 +26,15 @@ export const Item = ({
   dragPosition,
   dragRotation,
   canDrop = false,
+  isDebug = false,
 }: ItemElementProps) => {
-  const { name, gridPosition, size, rotation: itemRotation } = item;
+  const { name, gridPosition, size, rotation: itemRotation, light } = item;
 
   const rotation = isDragging ? dragRotation : itemRotation;
   const [map] = useAtom(mapAtom);
   const { gridToVector3 } = useGrid();
+
+  const isLightActive = light?.isActive ?? false;
 
   const { scene } = useGLTF(`models/items/${name}.glb`);
 
@@ -54,6 +59,14 @@ export const Item = ({
     })
   }, [])
 
+  let lightPosition = 0;
+  if(isLightActive) {
+    const boundingBox = new Box3().setFromObject(clone)
+    //const ySize = boundingBox.max.y - boundingBox.min.y
+    lightPosition = boundingBox.max.y;
+  }
+
+
   return <group
     onClick={onClick}
     position={gridToVector3(isDragging ? (dragPosition || gridPosition) : gridPosition, width, height)}
@@ -62,9 +75,28 @@ export const Item = ({
   >
     <primitive
       object={clone}
-      
       rotation-y={ (rotation || 0) * Math.PI / 2}
     />
+    <Show when={!isDragging && isLightActive}>
+      <Show when={isDebug}>
+        <mesh position-y={lightPosition}>
+          <boxGeometry args={[0.5, 0.5, 0.5]} />
+          <meshStandardMaterial color="red" />
+        </mesh>
+      </Show>
+
+      <Show when={!isDebug}>
+        <pointLight
+          intensity={1}
+          color="#e07951"
+          castShadow
+          shadow-mapSize-height={1024}
+          shadow-mapSize-width={1024}
+          position-y={lightPosition}
+        />
+      </Show>
+    </Show>
+
     <Show when={isDragging}>
       <mesh>
         <boxGeometry args={[width / map.gridDivision, 0.2, height / map.gridDivision]} />

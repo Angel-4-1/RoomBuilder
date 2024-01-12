@@ -59,11 +59,13 @@ const SpotLight = ({
 };
 
 interface LightsProps {
-  isDebug: boolean
+  isDebug: boolean;
+  isDay?: boolean; // is day or night ?
 };
 
 export default function Lights({
   isDebug,
+  isDay = true,
 }: LightsProps) {
   const dirLight = useRef<DirectionalLight>(null);
 
@@ -81,7 +83,7 @@ export default function Lights({
       <directionalLight
         castShadow
         position={[4, 4, 1]}
-        intensity={1.5}
+        intensity={isDay ? 1.5 : 0.1}
         shadow-mapSize={[1024, 1024]}
         //shadow-camera-near={1}
         //shadow-camera-far={10}
@@ -101,17 +103,17 @@ export default function Lights({
           ]} />
       </directionalLight>
 
-      <PointLight 
+      {/* <PointLight 
         position={ new Vector3(10, 2, 5) }
         isDebug={ isDebug }
-      />
+      /> */}
       
       {/* <Wrapper showPivotControls={isDebug}> */}
-        <SpotLight 
+        {/* <SpotLight 
           position={ new Vector3(5, 2, 10) }
           isDebug={ isDebug }
           intensity={ 3 }
-        />
+        /> */}
       {/* </Wrapper> */}
 
       {/* <spotLight
@@ -130,7 +132,7 @@ export default function Lights({
          <perspectiveCamera ref={shadowCameraRef} attach="shadow-camera" />
        </spotLight> */}
 
-      <ambientLight intensity={0.5} />
+      <ambientLight intensity={isDay ? 0.5 : 0.3} />
     </>
   )
 }

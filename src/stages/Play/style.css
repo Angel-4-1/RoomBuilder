@@ -17,10 +17,94 @@
 .play-buttons-container {
   display: flex;
   flex-direction: row;
+  text-align: center;
+  align-items: center;
 }
 
 @media (max-width: 800px) {
   .play-buttons-container {
     flex-direction: column;
   }
+}
+
+/** SLIDER **/
+:root {
+  --bg1: #e0e0e0;
+  --bg2: #100f12;
+  --sun: #ffc207;
+  --moon: #e6d9b0;
+  --dark-purple: rgb(64, 1, 100);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 40px;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Background of the slider */
+.slider {
+  position: absolute;
+  background-color: var(--dark-purple);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50px;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  cursor: pointer;
+}
+
+/* Sun */
+.slider::before {
+  position: absolute;
+  content: "";
+  background-color: var(--sun);
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  left: 5px;
+  bottom: 5px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+/* Circle to be on top of the sun to convert it into the moon */
+.slider::after {
+  position: absolute;
+  content: "";
+  height: 30px;
+  width: 30px;
+  background-color: var(--dark-purple);
+  border-radius: 50%;
+  left: -26px;
+  bottom: 4px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+/* Sun becomes the moon */
+input:checked + .slider::before {
+  background-color: var(--moon);
+  -webkit-transform: translateX(40px);
+          transform: translateX(40px);
+}
+
+input:checked + .slider::after {
+  -webkit-transform: translateX(60px);
+          transform: translateX(60px);
+}
+
+input:checked ~ .bg {
+  background-color: var(--bg2);
 }

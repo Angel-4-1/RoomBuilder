@@ -5,7 +5,6 @@ import { Item } from "~/components/Item";
 import { AccumulativeShadows, OrbitControls, RandomizedLight, useCursor } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { ItemProps } from "~/data/items";
-import { Avatar } from "~/components/Avatar";
 import { useGrid } from "~/hooks/useGrid";
 import { charactersAtom, mapAtom, userAtom } from "~/Experience";
 // @ts-ignore
@@ -154,20 +153,10 @@ export default function PlayStage() {
     const path = findPath(from, to);
     if(!path) return;
 
-    console.log( path )
     if(user) {
       user.path = path;
-      //setUser(user);
       setPath( path )
     }
-
-    // console.log( character )
-    // characters.map((character) => {
-    //   if (!character.isMyself)
-    //     return;
-
-    //   character.path = path
-    // })
   }
 
   return <>
@@ -180,7 +169,6 @@ export default function PlayStage() {
       minPolarAngle={0}
       maxPolarAngle={Math.PI / 2}
       screenSpacePanning={false}
-      //enableZoom={!shopMode}
     />
 
     {/* Accumulative shadows */}
@@ -211,31 +199,14 @@ export default function PlayStage() {
       <planeGeometry args={[map.size[0], map.size[1]]} />
       <meshStandardMaterial color="#f0f0f0" />
     </mesh>
-
-    {/* Characters */}
-    <Show when={false}>
-      {characters.map((character) => (
-        <Avatar
-          key={character.id}
-          id={character.id}
-          path={character.path}
-          position={
-            gridToVector3(character.position)
-          }
-          //topColor={character.topColor}
-          //bottomColor={character.bottomColor}
-          //hairColor={character.hairColor}
-        />
-      ))}
-    </Show>
     
-      <Show when={!isNullOrUndefined(user)}>
-        <Player
-          position={
-            gridToVector3(user?.position ? user.position : generateRandomPositionGridBasedSystem())
-          }
-          externalPath={path}
-        />
-      </Show>
+    <Show when={!isNullOrUndefined(user)}>
+      <Player
+        position={
+          gridToVector3(user?.position ? user.position : generateRandomPositionGridBasedSystem())
+        }
+        externalPath={path}
+      />
+    </Show>
   </>
 }

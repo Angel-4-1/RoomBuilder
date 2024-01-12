@@ -4,6 +4,11 @@ export interface ItemProps {
   size: number[];
   wall?: boolean;
   walkable?: boolean;
+  light?: {
+    isActive: boolean;
+    color?: string;
+    intensity?: number;
+  }
 };
 
 export const getItemByName = (name: string): ItemProps => {
@@ -283,21 +288,33 @@ const items: ItemProps[] = [
     name: "lampRoundFloor",
     image: "assets/languages/english.png",
     size: [1, 1],
+    light: {
+      isActive: true,
+    }
   },
   {
     name: "lampRoundTable",
     image: "assets/languages/english.png",
     size: [1, 1],
+    light: {
+      isActive: true,
+    }
   },
   {
     name: "lampSquareFloor",
     image: "assets/languages/english.png",
     size: [1, 1],
+    light: {
+      isActive: true,
+    }
   },
   {
     name: "lampSquareTable",
     image: "assets/languages/english.png",
     size: [1, 1],
+    light: {
+      isActive: true,
+    }
   },
   {
     name: "toaster",
