@@ -45,6 +45,9 @@ export const TRANSLATIONS = {
       map: {
         download: ["Download map", "Descargar mapa"],
       }
+    },
+    alertMsg: {
+      mapDownloaded: ["Map successfully downloaded", "Mapa descargado correctamente"],
     }
   },
 

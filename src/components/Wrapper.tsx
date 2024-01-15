@@ -30,7 +30,7 @@ const Wrapper: FC<WrapperProps> = ({
 				console.log('New Position: ', pos)
 				console.log('New Rotation: ', rot)
 			}}
-			onDrag={(l, dl, w, dw) => {
+			/*onDrag={(l, dl, w, dw) => {
 				// Extract the position and rotation
 				const position = new Vector3()
 				const rotation = new Quaternion()
@@ -38,7 +38,7 @@ const Wrapper: FC<WrapperProps> = ({
 				w.decompose(position, rotation, new Vector3())
 				setPos(position)
 				setRot(rotation)
-		}}
+		}}*/
 		>
 			{children}
 		</PivotControls>

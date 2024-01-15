@@ -6,6 +6,7 @@ import Show from "./components/Show";
 import { STAGES_MAP } from "./constants";
 import PlayInterface from "./stages/Play/PlayInterface";
 import EditorInterface from "./stages/Editor/EditorInterface";
+import { AlertBoxContainer } from "./components/AlertBox";
 
 export default function Interface()
 {
@@ -23,5 +24,7 @@ export default function Interface()
     <Show when={stage.id === STAGES_MAP.EDITOR_STAGE}>
       <EditorInterface />
     </Show>
+
+    <AlertBoxContainer />
   </>
 }

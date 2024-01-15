@@ -2,14 +2,16 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { atom, useAtom } from "jotai"
 import { MapItemProps, default as mapData } from "~/data/map";
 import { Item } from "~/components/Item";
-import { Grid, OrbitControls, ScrollControls } from "@react-three/drei";
+import { Grid, OrbitControls, PivotControls, ScrollControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useGrid } from "~/hooks/useGrid";
 import Show from "~/components/Show";
 import { Shop } from "./Shop";
-import { Vector3 } from "three";
+import { Quaternion, Vector3 } from "three";
 import { ItemProps } from "~/data/items";
 import { mapAtom, userAtom } from "~/Experience";
+import Wrapper from "~/components/Wrapper";
+import { isNullOrUndefined } from "~/utils/utils";
 
 export enum ItemActions {
   NONE = 0,
@@ -248,22 +250,22 @@ export default function EditorStage() {
     <Show when={!shopMode}>
       {/* Items */}
       {items.map((item, idx) => (
-        <Item
-          key={`${item.name}-${idx}`}
-          item={item}
-          onClick={() => {
-            console.log("clicked")
-            // @ts-ignore
-            setDraggedItem((prev) => (prev === null ? idx : prev));
-            setDraggedItemRotation(item.rotation || 0);
-            setDragPosition(item.gridPosition);
-          } }     
-          isDragging={draggedItem === idx}
-          dragPosition={dragPosition}
-          dragRotation={draggedItemRotation}
-          canDrop={canDrop}
-          isDebug={true}
-        />
+          <Item
+            key={`${item.name}-${idx}`}
+            item={item}
+            onClick={() => {
+              console.log("clicked")
+              // @ts-ignore
+              setDraggedItem((prev) => (prev === null ? idx : prev));
+              setDraggedItemRotation(item.rotation || 0);
+              setDragPosition(item.gridPosition);
+            } }     
+            isDragging={draggedItem === idx}
+            dragPosition={dragPosition}
+            dragRotation={draggedItemRotation}
+            canDrop={canDrop}
+            isDebug={true}
+          />
         ))
       }
 

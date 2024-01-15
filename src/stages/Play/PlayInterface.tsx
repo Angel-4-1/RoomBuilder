@@ -1,28 +1,31 @@
 import React from "react";
 import { useAtom } from "jotai";
-import { isDayAtom, languageAtom, mapAtom, stageAtom } from "~/Experience";
+import {mapAtom, stageAtom } from "~/Experience";
 import { useTranslation } from "~/utils/useTranslation";
 import { TRANSLATIONS } from "~/translations";
 import './style.css'
 import { STAGES, STAGES_MAP } from "~/constants";
 import { buildModeAtom } from "./PlayStage";
+import DayNightSwitch from "~/components/DayNightSwitch";
+import { createAlertBoxMessage, AlertType } from "~/components/AlertBox";
 
 export default function PlayInterface() {
-  const [language] = useAtom(languageAtom);
   const [stage, setStage] = useAtom(stageAtom);
   const [buildMode, setBuildMode] = useAtom(buildModeAtom);
   const [map, setMap] = useAtom(mapAtom);
-  const [isDay, setIsDay] = useAtom(isDayAtom);
 
+  /** GO BACK TO THE MAIN SCREEN**/
   const onBackClick = () => {
     setStage(STAGES[STAGES_MAP.INTRO_STAGE]);
   };
 
+  /** GO TO THE EDITOR */
   const onEditorClick = () => {
     setStage(STAGES[STAGES_MAP.EDITOR_STAGE]);
     setBuildMode(true);
   };
 
+  /** DOWNLOAD MAP **/
   function download(content: string, fileName: string, contentType: string) {
     const a = document.createElement("a");
     const file = new Blob([content], { type: contentType });
@@ -30,6 +33,8 @@ export default function PlayInterface() {
     a.download = fileName;
     a.click();
   }
+
+  const mapDownloadedAlertText = useTranslation(TRANSLATIONS.playStage.alertMsg.mapDownloaded);
 
   const onDownload = () => {
     const date = new Date();
@@ -39,10 +44,7 @@ export default function PlayInterface() {
     const fileName = "map" + "-" + day + "-" + month + "-" + year + ".txt";
     
     download(JSON.stringify(map), fileName, "text/plain");
-  }
-
-  const onChangeDay = () => {
-    setIsDay((prev) => !prev);
+    createAlertBoxMessage(mapDownloadedAlertText, AlertType.SUCCESS);
   }
 
   return <div className="play-container">
@@ -60,10 +62,7 @@ export default function PlayInterface() {
           {useTranslation(TRANSLATIONS.playStage.buttons.map.download)}
         </button>
 
-        <label className="switch">
-          <input type="checkbox" onChange={onChangeDay} checked={!isDay}/>
-          <div className="slider"></div>
-        </label>
+        <DayNightSwitch />
       </div>
     </div>
   </div>

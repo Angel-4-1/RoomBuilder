@@ -12,56 +12,8 @@ import { isNullOrUndefined } from "~/utils/utils";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { ItemEditor } from "./ItemEditor";
-
-const AlertType = {
-  SUCCESS: "alert-success",
-  ERROR: "alert-error",
-};
-
-const createAlertBox = (message: string, alertType?: string) => {
-  // Get container where to add the message
-  let alertContainer = document.getElementById("alert-container");
-
-  // Content
-  let alertContent = document.createElement('DIV');
-  alertContent.classList.add('alert-content');
-  alertContent.innerText = message;
-  
-  // Close icon
-  let alertClose = document.createElement('A');
-  alertClose.classList.add('alert-close');
-  alertClose.setAttribute('href', '#');
-
-  // Create the box message
-  let alertBox = document.createElement('DIV');
-  alertBox.classList.add('alert-box');
-  if (alertType) {
-    alertBox.classList.add(alertType);
-  }
-  alertBox.appendChild(alertContent);
-  alertBox.appendChild(alertClose);
-  
-  alertContainer?.appendChild(alertBox);
-
-  // Hide box
-  const hide = () => {
-    alertBox.classList.add('hide');
-    let hideBoxTimeout = setTimeout(function() {
-      alertBox.parentNode?.removeChild(alertBox);
-      clearTimeout(hideBoxTimeout);
-    }, 500);
-  }
-  alertClose.addEventListener('click', function(event) {
-    event.preventDefault();
-    hide(); 
-  });
-
-  // Hide box automatically after X seconds if user does not close it
-  let hideBoxAutoTimeout = setTimeout(function() {
-    hide();
-    clearTimeout(hideBoxAutoTimeout);
-  }, 10000);
-};
+import { AlertType, createAlertBoxMessage } from "~/components/AlertBox";
+import DayNightSwitch from "~/components/DayNightSwitch";
 
 export default function EditorInterface() {
   const [stage, setStage] = useAtom(stageAtom);
@@ -127,7 +79,7 @@ export default function EditorInterface() {
   const onCleanClick = () => {
     if (confirm(confirmText)) {
       setItemAction((prev) => prev === ItemActions.CLEAN_EVERYTHING ? ItemActions.NONE : ItemActions.CLEAN_EVERYTHING);
-      createAlertBox(cleanAlertText, AlertType.SUCCESS);
+      createAlertBoxMessage(cleanAlertText, AlertType.SUCCESS);
     }
   }
 
@@ -157,7 +109,7 @@ export default function EditorInterface() {
     // @ts-ignore
     let fileToLoad = document.getElementById("fileToLoad")?.files[0];
     if (!fileToLoad) {
-      createAlertBox(mapErrorMsg, AlertType.ERROR);
+      createAlertBoxMessage(mapErrorMsg, AlertType.ERROR);
       return;
     }
   
@@ -169,7 +121,7 @@ export default function EditorInterface() {
       setMap( newMap );
       clearFileInput(document.getElementById("fileToLoad"));
 
-      createAlertBox(mapSuccessMsg, AlertType.SUCCESS);
+      createAlertBoxMessage(mapSuccessMsg, AlertType.SUCCESS);
     };
   
     fileReader.readAsText(fileToLoad, "UTF-8");
@@ -219,12 +171,12 @@ export default function EditorInterface() {
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            // style={{
-            //   backgroundImage: `url(${item.image})`,
-            //   backgroundRepeat: 'no-repeat',
-            //   backgroundSize: 'cover',
-            //   backgroundPosition: 'center'
-            // }}
+            style={{
+              backgroundImage: `url(${item.image})`,
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
           />
         </>
       )
@@ -255,6 +207,8 @@ export default function EditorInterface() {
           >
             {useTranslation(TRANSLATIONS.editorStage.buttons.clean.description)}
           </button>
+
+          <DayNightSwitch />
 
 
         </div>
@@ -357,7 +311,5 @@ export default function EditorInterface() {
     </Canvas>
 
   </div>
-
-    <div id="alert-container" />
   </>
 }
