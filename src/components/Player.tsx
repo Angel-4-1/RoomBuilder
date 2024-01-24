@@ -105,11 +105,12 @@ export function Player({
         .clone()
         .sub(path[0])
         .normalize()
-        .multiplyScalar(MOVEMENT_SPEED);
+        .multiplyScalar(MOVEMENT_SPEED * delta * 60);
       
       body.current.position.sub( direction );
       body.current.lookAt( path[0] );
-      setAnimation(ANIMATIONS.WALK.name);
+      if(animation !== ANIMATIONS.WALK.name)
+        setAnimation(ANIMATIONS.WALK.name);
       // setIsDancing(false)
     } else if (path?.length) {
       path.shift();

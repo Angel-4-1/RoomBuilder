@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { atom, useAtom } from "jotai"
 import { MapItemProps, default as mapData } from "~/data/map";
 import { Item } from "~/components/Item";
-import { Grid, OrbitControls, PivotControls, ScrollControls } from "@react-three/drei";
+import { Grid, Html, OrbitControls, PivotControls, ScrollControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useGrid } from "~/hooks/useGrid";
 import Show from "~/components/Show";
@@ -32,7 +32,7 @@ export default function EditorStage() {
 
   const [map, setMap] = useAtom(mapAtom);
   const [items, setItems] = useState( map.items );
-  const { vector3ToGrid } = useGrid();
+  const { vector3ToGrid, gridToVector3 } = useGrid();
 
   const [user, setUser] = useAtom(userAtom);
 
@@ -288,6 +288,37 @@ export default function EditorStage() {
         <meshStandardMaterial color="#f0f0f0" />
       </mesh>
 
+      {/* [0,0] */}
+      <Html position={gridToVector3([0,0])}>
+        <p className="editor-coordinate">(0,0)</p>
+      </Html>
+
+      {/* [width,0] */}
+      <Html position={gridToVector3([map.size[0] * map.gridDivision,0])}>
+        <p className="editor-coordinate">({map.size[0] * map.gridDivision},0)</p>
+      </Html>
+      
+      {/* [0,height] */}
+      <Html position={gridToVector3([0,map.size[1] * map.gridDivision])}>
+        <p className="editor-coordinate">(0,{map.size[1] * map.gridDivision})</p>
+      </Html>
+      
+      {/* [width, height] */}
+      <Html position={gridToVector3([map.size[0] * map.gridDivision, map.size[1] * map.gridDivision])}>
+        <p className="editor-coordinate">({map.size[0] * map.gridDivision},{map.size[1] * map.gridDivision})</p>
+      </Html>
+
+      {/* {
+      draggedItem && 
+        <Html position={gridToVector3(items[draggedItem].gridPosition)}>
+          <div className="editor-draggedItem-container">
+            <button>Move</button>
+            <p>Item</p>
+          </div>
+        </Html>
+      } */}
+
+      {/* Grid */}
       <Grid infiniteGrid fadeDistance={50} fadeStrength={5}/>
     </Show>
 

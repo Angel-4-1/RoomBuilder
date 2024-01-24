@@ -113,3 +113,29 @@
   border-radius: 10px;
   border: bisque 2px solid;
 }
+
+.editor-item-area {
+  display: flex;
+  flex-direction: column;
+}
+.editor-item-info {
+  position: absolute !important;
+  top: 6em;
+  right: 1.5em;
+}
+
+/* MAP COORDINATES */
+.editor-coordinate {
+  padding: 0;
+  transform: translate(-75%, -50%);
+}
+
+/* DRAGGED ITEM */
+.editor-draggedItem-container {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+}

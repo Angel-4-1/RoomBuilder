@@ -8,6 +8,7 @@ import Show from './components/Show';
 import EditorStage from './stages/Editor/EditorStage';
 import { MapProps, default as mapData } from './data/map';
 import { isNullOrUndefined } from './utils/utils';
+import { useThree } from '@react-three/fiber';
 
 export interface Character {
   id: number;
@@ -60,6 +61,22 @@ export default function Experience() {
       root?.classList.add("night-bg")
     }
   }, [isDay])
+
+  const gl = useThree((state) => state.gl)
+  // const state = useThree((state) => state);
+
+  // Create event listener just once at the beginning
+  useEffect(() => {
+    window.addEventListener("onMakeScreenshot", function(e) {
+      e.preventDefault();
+
+      const fileName = "canvas.png";
+      const link = document.createElement('a');
+      link.setAttribute('download', fileName);
+      link.setAttribute('href', gl.domElement.toDataURL('image/png').replace('image/png', 'image/octet-stream'));
+      link.click();
+    });
+  }, [])
 
   return (
     <>

@@ -8,6 +8,7 @@ import { STAGES, STAGES_MAP } from "~/constants";
 import { buildModeAtom } from "./PlayStage";
 import DayNightSwitch from "~/components/DayNightSwitch";
 import { createAlertBoxMessage, AlertType } from "~/components/AlertBox";
+import { useThree } from "@react-three/fiber";
 
 export default function PlayInterface() {
   const [stage, setStage] = useAtom(stageAtom);
@@ -25,6 +26,9 @@ export default function PlayInterface() {
     setBuildMode(true);
   };
 
+  /** SCREENSHOT **/
+  const event = new CustomEvent("onMakeScreenshot", { detail: true});
+
   /** DOWNLOAD MAP **/
   function download(content: string, fileName: string, contentType: string) {
     const a = document.createElement("a");
@@ -32,8 +36,10 @@ export default function PlayInterface() {
     a.href = URL.createObjectURL(file);
     a.download = fileName;
     a.click();
-  }
 
+    window.dispatchEvent(event)
+  }
+  
   const mapDownloadedAlertText = useTranslation(TRANSLATIONS.playStage.alertMsg.mapDownloaded);
 
   const onDownload = () => {

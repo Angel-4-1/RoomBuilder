@@ -18,6 +18,7 @@ function App() {
           far: 200,
           position: [2.5, 4, 6],
         }}
+        gl={{ preserveDrawingBuffer: true }}
       >
         <Experience />
       </Canvas>

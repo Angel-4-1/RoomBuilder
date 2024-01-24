@@ -209,8 +209,6 @@ export default function EditorInterface() {
           </button>
 
           <DayNightSwitch />
-
-
         </div>
         
         <div>
@@ -255,7 +253,7 @@ export default function EditorInterface() {
           </button>
         </div>
 
-        <Show when={(!isNullOrUndefined(draggedItem))}>
+        <Show when={false && (!isNullOrUndefined(draggedItem))}>
           <div className={"editor-item-actions-container"}>
             <button onClick={onRotateClick}>
               {useTranslation(TRANSLATIONS.editorStage.buttons.item.rotate)}
@@ -287,6 +285,7 @@ export default function EditorInterface() {
       {useTranslation(TRANSLATIONS.editorStage.itemPreviewm.title)}
     </div>
 
+<div className="editor-item-area">
     <Canvas className="previewItem"
       camera={{
         fov: 45,
@@ -310,6 +309,57 @@ export default function EditorInterface() {
       </Show>
     </Canvas>
 
+    {/* <div className="editor-item-info">
+      {useTranslation(TRANSLATIONS.editorStage.itemPreviewm.title)}
+    </div> */}
+</div>
+
+  <Show when={(!isNullOrUndefined(draggedItem))}>
+      <div className={"editor-draggedItem-container"}>
+        <button
+          onClick={onMoveClick}
+          className={itemAction === ItemActions.MOVE ? "button-enabled" : "button-disabled"}
+          style={{
+            backgroundImage: `url("assets/icons/move.png")`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            width: '40px',
+            height: '40px',
+          }}
+        >
+          {/* {useTranslation(TRANSLATIONS.editorStage.buttons.item.move)} */}
+        </button>
+
+        <button onClick={onRotateClick} 
+        style={{
+          backgroundImage: `url("assets/icons/rotate.png")`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          width: '40px',
+          height: '40px',
+        }}>
+          {/* {useTranslation(TRANSLATIONS.editorStage.buttons.item.rotate)} */}
+        </button>
+
+        <button
+          onClick={onDeleteClick}
+          className={"button-red"}
+          style={{
+            backgroundImage: `url("assets/icons/delete.png")`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            width: '40px',
+            height: '40px',
+            marginLeft: '15px',
+          }}
+        >
+          {/* {useTranslation(TRANSLATIONS.editorStage.buttons.item.delete)} */}
+        </button>
+      </div>
+    </Show>
   </div>
   </>
 }

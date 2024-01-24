@@ -53,8 +53,7 @@ button, .input-button {
   touch-action: manipulation;
 }
 
-button:hover, button:focus,
-.input-button:hover, .input-button:focus {
+button:hover, .input-button:hover {
   background-color: #c481f5;
 }
 
@@ -66,7 +65,7 @@ input[type=file] {
   background-color: #59c681;
 }
 
-.button-enabled:hover, .button-enabled:focus {
+.button-enabled:hover {
   background-color: #8bcaa2;
 }
 
@@ -74,7 +73,7 @@ input[type=file] {
   background-color: #918989;
 }
 
-.button-disabled:hover, .button-disabled:focus {
+.button-disabled:hover {
   background-color: rgb(186, 173, 173);
 }
 

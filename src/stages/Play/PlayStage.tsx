@@ -159,6 +159,19 @@ export default function PlayStage() {
     }
   }
 
+  
+  // const gl = useThree((state) => state.gl)
+
+  // // Catch updateStage event
+  // document.addEventListener("onMakeScreenshot", function (e) {
+  //   e.preventDefault();
+  //   console.log("screenshot")
+  //   /*const link = document.createElement('a')
+  //   link.setAttribute('download', 'canvas.png')
+  //   link.setAttribute('href', gl.domElement.toDataURL('image/png').replace('image/png', 'image/octet-stream'))
+  //   link.click();*/
+  // });
+
   return <>
     {/* Controls */}
     <OrbitControls
