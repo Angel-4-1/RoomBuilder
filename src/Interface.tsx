@@ -7,6 +7,7 @@ import { STAGES_MAP } from "./constants";
 import PlayInterface from "./stages/Play/PlayInterface";
 import EditorInterface from "./stages/Editor/EditorInterface";
 import { AlertBoxContainer } from "./components/AlertBox";
+import RoomSelectionInterface from "./stages/RoomSelection/RoomSelectionInterface";
 
 export default function Interface()
 {
@@ -15,6 +16,10 @@ export default function Interface()
   return <>
     <Show when={stage.id === STAGES_MAP.INTRO_STAGE}>
       <IntroInterface />
+    </Show>
+    
+    <Show when={stage.id === STAGES_MAP.ROOM_SELECTION}>
+      <RoomSelectionInterface />
     </Show>
     
     <Show when={stage.id === STAGES_MAP.PLAY_STAGE}>

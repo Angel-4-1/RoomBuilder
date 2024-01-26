@@ -11,7 +11,7 @@ export default function IntroInterface() {
 	const [stage, setStage] = useAtom(stageAtom);
 
 	const onStartClick = () => {
-		setStage(STAGES[STAGES_MAP.PLAY_STAGE]);
+		setStage(STAGES[STAGES_MAP.ROOM_SELECTION]);
 	};
 
 	const [language, setLanguage] = useAtom(languageAtom);

@@ -8,7 +8,6 @@ import { STAGES, STAGES_MAP } from "~/constants";
 import { buildModeAtom } from "./PlayStage";
 import DayNightSwitch from "~/components/DayNightSwitch";
 import { createAlertBoxMessage, AlertType } from "~/components/AlertBox";
-import { useThree } from "@react-three/fiber";
 
 export default function PlayInterface() {
   const [stage, setStage] = useAtom(stageAtom);
@@ -17,7 +16,7 @@ export default function PlayInterface() {
 
   /** GO BACK TO THE MAIN SCREEN**/
   const onBackClick = () => {
-    setStage(STAGES[STAGES_MAP.INTRO_STAGE]);
+    setStage(STAGES[STAGES_MAP.ROOM_SELECTION]);
   };
 
   /** GO TO THE EDITOR */
