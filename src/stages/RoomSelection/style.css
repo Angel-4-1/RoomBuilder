@@ -9,11 +9,16 @@
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.3);
-    backdrop-filter: blur(4px);
 }
 
 .white-text {
     color: #fff;
+}
+
+.blur {
+    background: rgba(0,0,0,0.6);
+    filter: blur(4px);
+    transition: 1.5s;
 }
 
 /** ROOMS **/
@@ -24,6 +29,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     height: 80vh;
+    align-content: start;
 }
 
 @media (min-width: 600px) {
@@ -32,19 +38,18 @@
 
 .btn-room {
     width: 30vw;
-    height: 100%;
+    height: fit-content;
 
     padding: 32px 32px;
     transition: opcaity 0.4s;
 
     outline: none;
-    border: none;
-    border-radius: 5%;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
 
     color: #fff;
     cursor: pointer;
 
-    border: 3px solid rgb(255, 255, 255);
     font-size: 2.5vh;
     text-align: left;
 
@@ -60,13 +65,21 @@
     font-weight: bold;
 }
 
-.btn-room-subtitle {
-
-}
-
 .btn-room:hover {
     opacity: 0.6;
     background-size: cover;
+}
+
+.create-room {
+    text-align: center;
+    font-weight: bold;
+    background-color: rgb(123, 170, 127);
+}
+
+.create-room:hover {
+    color: black;
+    background-color: rgb(169, 201, 172);
+    border-color: rgb(68, 92, 70);
 }
 
 /** POP UP **/

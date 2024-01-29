@@ -1,6 +1,6 @@
 import React from "react";
 import { useAtom } from "jotai";
-import {mapAtom, stageAtom } from "~/Experience";
+import {mapAtom, roomAtom, stageAtom } from "~/Experience";
 import { useTranslation } from "~/utils/useTranslation";
 import { TRANSLATIONS } from "~/translations";
 import './style.css'
@@ -13,6 +13,7 @@ export default function PlayInterface() {
   const [stage, setStage] = useAtom(stageAtom);
   const [buildMode, setBuildMode] = useAtom(buildModeAtom);
   const [map, setMap] = useAtom(mapAtom);
+  const [room, setRoom] = useAtom(roomAtom);
 
   /** GO BACK TO THE MAIN SCREEN**/
   const onBackClick = () => {
@@ -54,6 +55,9 @@ export default function PlayInterface() {
 
   return <div className="play-container">
     <div className="play-elements-container">
+      <div className="play-room-details">
+        <h4 className="room-name">{room.name}</h4>
+      </div>
       <div className="play-buttons-container">
         <button onClick={onBackClick} className="button-red">
           {useTranslation(TRANSLATIONS.playStage.buttons.back)}

@@ -9,7 +9,7 @@ import EditorStage from './stages/Editor/EditorStage';
 import { MapProps, default as mapData } from './data/map';
 import { isNullOrUndefined } from './utils/utils';
 import { useThree } from '@react-three/fiber';
-import world, { WorldProps } from './data/world';
+import world, { RoomProps, WorldProps } from './data/world';
 
 export interface Character {
   id: number;
@@ -31,6 +31,7 @@ export const stageAtom = atom<StageProps>(STAGES[0]);
 export const charactersAtom = atom<Character[]>([]);
 export const userAtom = atom<PlayerProps|null>(null);
 export const mapAtom = atom<MapProps>(mapData);
+export const roomAtom = atom<RoomProps>(world.rooms[0]);
 export const isDayAtom = atom<boolean>(true);
 export const worldAtom = atom<WorldProps>(world);
 
@@ -49,7 +50,6 @@ export default function Experience() {
   }, []);
 
   useEffect(() => {
-    console.log("isDay", isDay)
     const root = document.getElementById('root');
     if(isNullOrUndefined(root)) {
       return;
@@ -65,7 +65,6 @@ export default function Experience() {
   }, [isDay])
 
   const gl = useThree((state) => state.gl)
-  // const state = useThree((state) => state);
 
   // Create event listener just once at the beginning
   useEffect(() => {

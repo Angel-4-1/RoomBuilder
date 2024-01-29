@@ -24,3 +24,8 @@
     flex-direction: column;
   }
 }
+
+.room-name {
+  margin: 0;
+  margin-bottom: 10px;
+}
