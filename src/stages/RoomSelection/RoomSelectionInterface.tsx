@@ -68,6 +68,7 @@ export default function RoomSelectionInterface() {
 
 	const handleChange = (e: any) => {
 		setInputFields({ ...inputFields, [e.target.name]: e.target.value });
+		setErrors({});
 	};
 
 	const handleSubmit = (e :any) => {
@@ -83,6 +84,9 @@ export default function RoomSelectionInterface() {
 	};
 
 	useEffect(() => {
+		if(!submitting) return;
+
+		setSubmitting(false);
 		if (Object.keys(errors).length === 0 && submitting) {
 			finishSubmit();
 		} else {
@@ -114,13 +118,15 @@ export default function RoomSelectionInterface() {
 
 	<div className={`room-popup ${isPopUpOpen ? '' : 'hidden'}`} id="myForm">
 		<form className="form-container" >
-			<h1>Room set up</h1>
+			<h1 className="form-title">Room set up</h1>
 
-			<label htmlFor="name">
-				<b>Name</b>
-			</label>
-			<br />
-			<textarea className="form-input" placeholder="Enter Room name" name="name" onChange={handleChange}/>
+			<span className="form-label-container">
+				<label className="label-principal" htmlFor="name">
+					<b>Name</b>
+				</label>
+				<span className="label-secondary">* mandatory</span>
+			</span>
+			<textarea className={`form-input ${errors?.name ? 'mandatory' : '' }`} placeholder="Enter Room name" name="name" onChange={handleChange}/>
 
 			<label htmlFor="description">
 				<b>Description</b>

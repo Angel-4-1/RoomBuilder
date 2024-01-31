@@ -207,7 +207,7 @@ export default function EditorStage() {
       ...prev,
       {
         ...item,
-        gridPosition: [centerMap.w, centerMap.h],
+        gridPosition: [1000, 1000],
         tmp: true,  // tell its temporal
       },
     ]);

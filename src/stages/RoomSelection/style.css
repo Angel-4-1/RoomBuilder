@@ -38,6 +38,7 @@
 
 .btn-room {
     width: 30vw;
+    min-width: 300px;
     height: fit-content;
 
     padding: 32px 32px;
@@ -91,6 +92,7 @@
     border: 3px solid #f1f1f1;
     border-radius: 10px;
     z-index: 99;
+    /* min-width: 400px; */
 }
 
 .hidden {
@@ -101,6 +103,30 @@
     width: 45vw;
     padding: 10px;
     background-color: white;
+    border-radius: 5px;
+}
+
+.form-title {
+    text-align: center;
+}
+
+/* Input label */
+.form-label-container {
+    display: grid;
+    grid-template-areas: "principal secondary";
+    grid-template-columns: 2fr 1fr;
+}
+
+.label-principal {
+    grid-area: "principal";
+}
+
+.label-secondary {
+    grid-area: "secondary";
+    text-align: right;
+    padding-right: 10px;
+    font-size: small;
+    color: #bd1a1a;
 }
 
 /* Input */
@@ -112,6 +138,10 @@
     border: none;
     background: #f1f1f1;
     resize: vertical;
+}
+
+.mandatory {
+    border: 2px solid red;
 }
 
 .form-input:focus {
@@ -129,6 +159,7 @@
     width: 100%;
     margin-bottom:10px;
     opacity: 0.8;
+    line-height: 0px;
 }
 
 .form-container .cancel {
