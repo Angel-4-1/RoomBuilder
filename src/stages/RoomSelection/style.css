@@ -8,7 +8,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.3);
+    background: rgba(0,0,0,0.15);
 }
 
 .white-text {
@@ -69,18 +69,6 @@
 .btn-room:hover {
     opacity: 0.6;
     background-size: cover;
-}
-
-.create-room {
-    text-align: center;
-    font-weight: bold;
-    background-color: rgb(123, 170, 127);
-}
-
-.create-room:hover {
-    color: black;
-    background-color: rgb(169, 201, 172);
-    border-color: rgb(68, 92, 70);
 }
 
 /** POP UP **/
@@ -168,4 +156,67 @@
 
 .form-container .btn:hover, .open-button:hover {
     opacity: 1;
+}
+
+/* CREATE BUTTON */
+.create-room {
+    --button-star-greyscale: 100%;
+    --button-star-contrast: 0%;
+
+    background-color: #b4eca2;
+    color: black;
+    font-weight: bold;
+    border-radius: 30px;
+    text-align: center;
+}
+
+.create-room:active {
+    /* When button is pressed */
+    transform: scale(0.95);
+    transition: 0.2s;
+}
+
+.create-room:hover {
+    opacity: 0.9;
+    background-color: rgb(165, 194, 142);
+    border-color: rgb(68, 92, 70);
+}
+
+
+@media (max-width: 800px) {
+    /* CSS that should be displayed if width is equal to or less than 800px goes here */
+    .create-room {
+        text-align: unset;
+    }
+
+    .create-room-text {
+        margin-left: 14%
+    }
+}
+
+.icon {
+    /* Place item */
+    position: absolute;
+    display: block;
+    left: 11%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+
+    /* Size */
+    width: 25%;
+    height: 100%;
+
+    pointer-events: none;
+
+    /* Colors */
+    filter: grayscale(var(--button-star-greyscale))
+        contrast(var(--button-star-contrast));
+    opacity: 0.3;
+}
+
+.icon canvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }

@@ -2,12 +2,13 @@ import { useAtom } from "jotai";
 import { TRANSLATIONS } from "../../translations"
 import { useTranslation } from "../../utils/useTranslation";
 import './style.css'
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { mapAtom, roomAtom, stageAtom, worldAtom } from "~/Experience";
 import { STAGES, STAGES_MAP } from "~/constants";
 import { RoomProps } from "~/data/world";
 import { MapProps } from "~/data/map";
-import { isNullOrUndefined } from "~/utils/utils";
+import { Variants, motion } from "framer-motion";
+import { StarIcon } from "./StartIcon";
 
 export default function RoomSelectionInterface() {
 	const [stage, setStage] = useAtom(stageAtom);
@@ -42,7 +43,27 @@ export default function RoomSelectionInterface() {
 		setStage(STAGES[STAGES_MAP.EDITOR_STAGE]);
 	};
 
+	const initialInputFields = {
+		name: "",
+		description: "",
+	}
+
+	const [inputFields, setInputFields] = useState(initialInputFields);
+
+	const resetFormValues = () => {
+		setInputFields(initialInputFields);
+		const formName = document.getElementById("form-name") as HTMLInputElement;
+		if (formName) {
+			formName.value = "";
+		}
+		const formDescription = document.getElementById("form-description") as HTMLInputElement;
+		if (formDescription) {
+			formDescription.value = "";
+		}
+	}
+
 	const onOpenPopUp = () => {
+		resetFormValues();
 		setIsPopUpOpen( true );
 	}
 	
@@ -50,10 +71,6 @@ export default function RoomSelectionInterface() {
 		setIsPopUpOpen( false );
 	}
 
-	const [inputFields, setInputFields] = useState({
-		name: "",
-		description: "",
-	});
 	const [errors, setErrors] = useState({});
 	const [submitting, setSubmitting] = useState<boolean>(false);
 
@@ -78,8 +95,6 @@ export default function RoomSelectionInterface() {
 	};
 	
 	const finishSubmit = () => {
-		console.log(inputFields);
-		// clear form
 		onCreateNewRoom();
 	};
 
@@ -94,10 +109,29 @@ export default function RoomSelectionInterface() {
 		}
 	}, [errors]);
 
+	/* STAR */
+	const [isHover, setIsHover] = useState(false);
+
+	const buttonVariants: Variants = {
+		rest: {
+			// @ts-ignore
+			"--button-star-greyscale": "100%",
+			"--button-star-contrast": "0%",
+			transition: { duration: 0.7 }
+		},
+		hover: {
+			// @ts-ignore
+			"--button-star-greyscale": "0%",
+			"--button-star-contrast": "100%",
+			// scale: 1.2,
+			// y: -8
+		},
+	};
+
 	return <>
 	<div className={`room-container ${isPopUpOpen ? 'blur' : ''}`}>
 		<div className="title">
-			<h2 className="white-text">Select a room</h2>
+			<h2>{useTranslation(TRANSLATIONS.roomSelectionStage.title)}</h2>
 		</div>
 
 		<div className="rooms">
@@ -110,33 +144,82 @@ export default function RoomSelectionInterface() {
 					</button>
 			})}
 
-			<button key={"room-new"} className="btn-room create-room"
+			<motion.button
+				className="btn-room create-room"
+				initial={false}
+				animate={[isHover ? "hover" : "rest"]}
+				whileTap="press"
+				variants={buttonVariants}
+				onHoverStart={() => setIsHover(true)}
+				onHoverEnd={() => setIsHover(false)}
 				onClick={() => onOpenPopUp()}
-			>Create a new room</button>
+			>
+				<motion.div
+					className="icon"
+					variants={{
+						hover: { opacity: 1 }
+					}}
+				>
+					<Suspense fallback={null}>
+						<StarIcon isHover={isHover} isLiked={false} />
+					</Suspense>
+				</motion.div>
+					
+					<span className="create-room-text">
+						{useTranslation(TRANSLATIONS.roomSelectionStage.buttons.createRoom)}
+					</span>
+				
+			</motion.button>
 		</div>
 	</div>
 
+	{/* Pop up to create a new room */}
 	<div className={`room-popup ${isPopUpOpen ? '' : 'hidden'}`} id="myForm">
-		<form className="form-container" >
-			<h1 className="form-title">Room set up</h1>
+		<div className="form-container" >
+			<h1 className="form-title">
+				{useTranslation(TRANSLATIONS.roomSelectionStage.popUp.title)}
+			</h1>
 
+			{/* Name input */}
 			<span className="form-label-container">
 				<label className="label-principal" htmlFor="name">
-					<b>Name</b>
+					<b>{useTranslation(TRANSLATIONS.roomSelectionStage.popUp.name)}</b>
 				</label>
-				<span className="label-secondary">* mandatory</span>
+				<span className="label-secondary">
+					{useTranslation(TRANSLATIONS.roomSelectionStage.popUp.mandatory)}
+				</span>
 			</span>
-			<textarea className={`form-input ${errors?.name ? 'mandatory' : '' }`} placeholder="Enter Room name" name="name" onChange={handleChange}/>
+			
+			<textarea 
+				id="form-name"
+				// @ts-ignore
+				className={`form-input ${errors?.name ? 'mandatory' : '' }`} 
+				placeholder={useTranslation(TRANSLATIONS.roomSelectionStage.popUp.placeholder.name)}
+				name="name"
+				onChange={handleChange}
+			/>
 
+			{/* Description input */}
 			<label htmlFor="description">
-				<b>Description</b>
+				<b>{useTranslation(TRANSLATIONS.roomSelectionStage.popUp.description)}</b>
 			</label>
-			<br />
-			<textarea className="form-input" placeholder="Enter Room description" name="description" onChange={handleChange}/>
 
-			<button type="submit" className="btn" onClick={handleSubmit}>Create</button>
-			<button className="btn cancel" onClick={onCancel}>Close</button>
-		</form>
+			<textarea
+				id="form-description"
+				className="form-input"
+				placeholder={useTranslation(TRANSLATIONS.roomSelectionStage.popUp.placeholder.description)}
+				name="description"
+				onChange={handleChange}
+			/>
+
+			{/* Buttons */}
+			<button type="submit" className="btn" onClick={handleSubmit}>
+				{useTranslation(TRANSLATIONS.roomSelectionStage.popUp.buttons.create)}
+			</button>
+			<button className="btn cancel" onClick={onCancel}>
+				{useTranslation(TRANSLATIONS.roomSelectionStage.popUp.buttons.cancel)}
+			</button>
+		</div>
 	</div>
 
 </>

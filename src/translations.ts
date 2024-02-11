@@ -11,6 +11,20 @@ export const TRANSLATIONS = {
     title: ["Select a room", "Selecciona una sala"],
     buttons: {
       createRoom: ["Create a new room", "Crear una nueva sala"]
+    },
+    popUp : {
+      title: ["Room set up", "Configuración de la sala"],
+      name: ["Name", "Nombre"],
+      description: ["Description", "Descripción"],
+      mandatory: ["* mandatory", "* obligatorio"],
+      placeholder: {
+        name: ["Enter the room name", "Introduzca el nombre de la sala"],
+        description: ["Enter the room description", "Introduzca la descripción de la sala"],
+      },
+      buttons: {
+        create: ["Create", "Crear"],
+        cancel: ["Cancel", "Cancelar"],
+      },
     }
   },
 
