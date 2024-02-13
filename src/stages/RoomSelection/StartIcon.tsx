@@ -10,7 +10,7 @@ interface StartIconProps {
 }
 
 export function StarIcon({ isLiked, isHover }: StartIconProps) {
-  const { nodes } = useGLTF("/assets/room-selection/star-icon.glb");
+  const { nodes } = useGLTF("assets/room-selection/star-icon.glb");
 
   return (
     <Canvas
