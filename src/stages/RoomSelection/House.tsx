@@ -27,7 +27,7 @@ export function House({
   variant = HouseVariant.HOUSE_1,
 } : HouseProps) {
 
-  const { scene } = useGLTF(`/assets/room-selection/${variant}.glb`);
+  const { scene } = useGLTF(`assets/room-selection/${variant}.glb`);
 
   scene.traverse((child) => {
     if ((child as THREE.Mesh).isMesh) {
