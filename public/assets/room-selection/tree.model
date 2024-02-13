@@ -1,0 +1,21 @@
+# Made using Asset Forge (2.2.0)
+
+:materials
+
+[name:stone;color:RGBA(0.584, 0.686, 0.757, 1.000);scale:(1.0, 1.0);shader:Default;valueA:0.5;valueB:0;]
+[name:woodDark;color:RGBA(0.522, 0.329, 0.196, 1.000);scale:(1.0, 1.0);shader:Default;valueA:0.5;valueB:0;]
+[name:_defaultMat;color:RGBA(1.000, 1.000, 1.000, 1.000);scale:(1.0, 1.0);shader:Default;valueA:0.5;valueB:0;]
+[name:iron;color:RGBA(0.376, 0.376, 0.376, 1.000);scale:(1.0, 1.0);shader:Default;valueA:0.5;valueB:0;]
+[name:wood;color:RGBA(0.729, 0.463, 0.278, 1.000);scale:(1.0, 1.0);shader:Default;valueA:0.5;valueB:0;]
+[name:sand;color:RGBA(0.847, 0.761, 0.608, 1.000);scale:(1.0, 1.0);shader:Default;valueA:0.5;valueB:0;]
+[name:textile;color:RGBA(0.820, 0.753, 0.671, 1.000);scale:(1.0, 1.0);shader:Default;valueA:0.5;valueB:0;]
+[name:leaves;color:RGBA(0.227, 0.557, 0.322, 1.000);scale:(1.0, 1.0);shader:Default;valueA:0.5;valueB:0;]
+[name:foliage;color:RGBA(0.000, 0.655, 0.486, 1.000);scale:(1.0, 1.0);shader:Default;valueA:0.35;valueB:0;]
+
+:models
+
+[name:;collection:Foliage;type:leafs_cone;position:(5.0000, 1.5000, 2.0000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:foliage;]
+[name:;collection:Foliage;type:trunk_taper;position:(5.0000, 0.0000, 2.0000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 3.4100, 1.0000);group:;locked:False;hidden:False;materials:wood;]
+[name:;collection:Foliage;type:tree_branchLongBend;position:(5.0000, 0.7000, 2.0000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:wood;]
+[name:;collection:Foliage;type:leafs_round;position:(5.0200, 1.0000, 1.7616);rotation:(330.0000, 0.0000, 0.0000);scale:(0.2400, 0.4032, 0.2333);group:;locked:False;hidden:False;materials:foliage;]
+[name:;collection:Foliage;type:plant_small;position:(5.3000, 0.0000, 2.3000);rotation:(0.0000, 345.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:foliage;]

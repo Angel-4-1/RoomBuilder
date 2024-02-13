@@ -7,7 +7,7 @@ import { worldAtom } from "~/Experience";
 import { RoomProps } from "~/data/world";
 import { useThree } from "@react-three/fiber";
 import { degToRad } from "~/utils/utils";
-import { House, HouseVariant } from "./House";
+import { Model, ModelVariant } from "./Model";
 
 export default function RoomSelectionStage()
 {
@@ -52,7 +52,7 @@ export default function RoomSelectionStage()
         letterSpacing={0.012}
       >
         Room
-        <meshStandardMaterial color="red" />
+        <meshStandardMaterial color="#e37e56" />
       </Text3D>
 
       <Text3D
@@ -67,11 +67,11 @@ export default function RoomSelectionStage()
         letterSpacing={0.012}
       >
         Builder
-        <meshStandardMaterial color="green" />
+        <meshStandardMaterial color="#5da85f" />
       </Text3D>
 
       {/* Houses */}
-      <House
+      <Model
         position={{
           x: 1,
           y: 0,
@@ -79,7 +79,7 @@ export default function RoomSelectionStage()
         }}
         rotationInDeg={140}
       />
-      <House
+      <Model
         position={{
           x: 3,
           y: 0,
@@ -87,18 +87,18 @@ export default function RoomSelectionStage()
         }}
         scale={1.25}
         rotationInDeg={140}
-        variant={HouseVariant.HOUSE_2}
+        variant={ModelVariant.HOUSE_2}
       />
-      <House
+      <Model
         position={{
           x: -2.5,
           y: 0,
           z: 0.5,
         }}
         rotationInDeg={220}
-        variant={HouseVariant.HOUSE_3}
+        variant={ModelVariant.HOUSE_3}
       />
-      <House
+      <Model
         position={{
           x: -2.5,
           y: 0,
@@ -106,8 +106,30 @@ export default function RoomSelectionStage()
         }}
         scale={0.8}
         rotationInDeg={230}
-        variant={HouseVariant.HOUSE_4}
+        variant={ModelVariant.HOUSE_4}
       />
+
+      {/* Trees */}
+      <Model
+        position={{
+          x: -4,
+          y: 0,
+          z: 0.5,
+        }}
+        rotationInDeg={0}
+        variant={ModelVariant.TREE_1}
+      />
+      <Model
+        position={{
+          x: 2.5,
+          y: 0,
+          z: 3,
+        }}
+        scale={0.75}
+        rotationInDeg={60}
+        variant={ModelVariant.TREE_2}
+      />
+
       {/* <Grid infiniteGrid fadeDistance={50} fadeStrength={5}/> */}
     </group>
   </>
