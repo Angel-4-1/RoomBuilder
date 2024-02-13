@@ -1,6 +1,7 @@
 import { useGLTF } from "@react-three/drei";
 import React from "react";
-import { degToRad } from "~/utils/utils";
+import Show from "~/components/Show";
+import { degToRad, isNullOrUndefined } from "~/utils/utils";
 
 export enum HouseVariant {
   HOUSE_1 = "house",
@@ -29,7 +30,7 @@ export function House({
 
   const { scene } = useGLTF(`assets/room-selection/${variant}.glb`);
 
-  scene.traverse((child) => {
+  scene?.traverse((child) => {
     if ((child as THREE.Mesh).isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
@@ -37,13 +38,15 @@ export function House({
   });
 
   return (
-    <primitive
-      object={scene}
-      position-x={position.x}
-      position-y={position.y}
-      position-z={position.z}
-      scale={scale ?? 1}
-      rotation-y={degToRad(rotationInDeg ?? 0)}
-    />
+    <Show when={!isNullOrUndefined( scene )}>
+      <primitive
+        object={scene}
+        position-x={position.x}
+        position-y={position.y}
+        position-z={position.z}
+        scale={scale ?? 1}
+        rotation-y={degToRad(rotationInDeg ?? 0)}
+      />
+    </Show>
   )
 }
