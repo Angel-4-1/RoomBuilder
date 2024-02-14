@@ -11,6 +11,7 @@ import { isNullOrUndefined } from './utils/utils';
 import { useThree } from '@react-three/fiber';
 import world, { RoomProps, WorldProps } from './data/world';
 import RoomSelectionStage from './stages/RoomSelection/RoomSelectionStage';
+import IntroStage from './stages/Intro/IntroStage';
 
 export interface Character {
   id: number;
@@ -84,6 +85,11 @@ export default function Experience() {
     <>
       <OrbitControls makeDefault />
 
+      <Show when={stage.id === STAGES_MAP.INTRO_STAGE}>
+        <Lights isDebug={ false } isDay={true} />
+        <IntroStage />
+      </Show>
+      
       <Show when={stage.id === STAGES_MAP.ROOM_SELECTION}>
         <Lights isDebug={ false } isDay={true} />
         <RoomSelectionStage />

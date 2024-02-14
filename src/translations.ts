@@ -5,6 +5,10 @@ export const TRANSLATIONS = {
       "A place where you can design scenes using different types of objects", 
       "Un lugar en el que podras diseñar escenas utilizando distintos tipos de objetos"
     ],
+    message: {
+      top: ["Room", "Room"],
+      bottom: ["Builder", "Builder"],
+    },
   },
 
   roomSelectionStage: {
@@ -25,6 +29,10 @@ export const TRANSLATIONS = {
         create: ["Create", "Crear"],
         cancel: ["Cancel", "Cancelar"],
       },
+    },
+    message: {
+      top: ["Select", "Selecciona"],
+      bottom: ["a room", "una sala"],
     }
   },
 

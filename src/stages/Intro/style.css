@@ -8,8 +8,8 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.3);
-    backdrop-filter: blur(4px);
+    background: rgba(0,0,0,0.1);
+    backdrop-filter: blur(1px);
 }
 
 .version {
@@ -26,6 +26,9 @@
 .subtitle {
     text-align: center;
     margin-left: 15px;
+    background: rgba(0,0,0,0.25);
+    padding: 10px;
+    border-radius: 10px;
 }
 
 /** LANGUAGES **/

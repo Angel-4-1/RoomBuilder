@@ -21,6 +21,7 @@
     background: rgba(0,0,0,0.6);
     filter: blur(4px);
     transition: 1.5s;
+    pointer-events: none;
 }
 
 /** ROOMS **/
