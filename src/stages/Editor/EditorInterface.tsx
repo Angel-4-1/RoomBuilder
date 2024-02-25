@@ -183,9 +183,16 @@ export default function EditorInterface() {
     })
   }, [items])
 
+  /* Change map size by using slider */
+  const sliderMinMax = {
+    min: 5,
+    max: 20
+  }
+
   const onChangeMapSize = () => {
     // @ts-ignore
     const widthMap = document.getElementById("widthMap")?.value;
+    console.log(widthMap)
     // @ts-ignore
     const heightMap = document.getElementById("heightMap")?.value;
     map.size = [widthMap, heightMap];
@@ -238,15 +245,23 @@ export default function EditorInterface() {
         </div>
 
         <div>
-          <label htmlFor="widthMap">Width (between 5 and 20)</label>
-          <input type="number" id="widthMap" name="quantity" min="5" max="20" defaultValue={map.size[0]}>
-          </input>
-          <br/>
+          <div className="slidecontainer">
+            <label htmlFor="widthMap">Width:</label>
+            <input type="range" id="widthMap" min={sliderMinMax.min} max={sliderMinMax.max} defaultValue={map.size[0]} className="inputRange" />
+            <span className="slideLabels">
+              <span className="slideLabelLeft">{sliderMinMax.min}</span>
+              <span className="slideLabelRight">{sliderMinMax.max}</span>
+            </span>
+          </div>
           
-          <label htmlFor="heightMap">Height (between 5 and 20)</label>
-          <input type="number" id="heightMap" name="quantity" min="5" max="20" defaultValue={map.size[1]}>
-          </input>
-          <br/>
+          <div className="slidecontainer">
+            <label htmlFor="heightMap">Height:</label>
+            <input type="range" id="heightMap" min={sliderMinMax.min} max={sliderMinMax.max} defaultValue={map.size[1]} className="inputRange" />
+            <span className="slideLabels">
+              <span className="slideLabelLeft">{sliderMinMax.min}</span>
+              <span className="slideLabelRight">{sliderMinMax.max}</span>
+            </span>
+          </div>
 
           <button onClick={onChangeMapSize}>
             Change
@@ -285,7 +300,7 @@ export default function EditorInterface() {
       {useTranslation(TRANSLATIONS.editorStage.itemPreviewm.title)}
     </div>
 
-<div className="editor-item-area">
+  <div className="editor-item-area">
     <Canvas className="previewItem"
       camera={{
         fov: 45,

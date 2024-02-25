@@ -37,7 +37,7 @@ export default function PlayInterface() {
     a.download = fileName;
     a.click();
 
-    window.dispatchEvent(event)
+    //window.dispatchEvent(event)
   }
   
   const mapDownloadedAlertText = useTranslation(TRANSLATIONS.playStage.alertMsg.mapDownloaded);

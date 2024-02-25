@@ -1,4 +1,3 @@
-
 import { degToRad } from "~/utils/utils";
 import { useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";

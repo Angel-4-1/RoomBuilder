@@ -9,6 +9,7 @@ import { SkeletonUtils } from "three-stdlib"
 import { useFrame } from '@react-three/fiber';
 import { useGrid } from '../hooks/useGrid';
 import * as THREE from "three"
+import Show from './Show';
 
 const PLAYER_MODEL_GLB = "models/character.glb";
 const MOVEMENT_SPEED = 0.05;
@@ -32,11 +33,13 @@ const ANIMATIONS = {
 interface PlayerProps {
   externalPath: [];
   position: THREE.Vector3;
+  showPath: boolean;
 }
 
 export function Player({
   externalPath = [],
   position,
+  showPath = false,
 }: PlayerProps) {
   const playerPosition = useMemo(() => position, []);
   const body = useRef();
@@ -61,7 +64,6 @@ export function Player({
   // Load animations
   const { animations: idleAnimation } = useGLTF( ANIMATIONS.IDLE.path );
   const { animations: walkAnimation } = useGLTF( ANIMATIONS.WALK.path );
-  const { animations: danceAnimation } = useGLTF( ANIMATIONS.DANCE.path );
 
   // Load animations FBX
   const { animations: idleAnimationFBX } = useFBX( ANIMATIONS.IDLE.pathFBX );
@@ -75,15 +77,13 @@ export function Player({
   const { actions } = useAnimations([
     idleAnimation[0],
     walkAnimation[0],
-    // danceAnimation[0],
   ], body);
 
-  // const [isDancing, setIsDancing] = useState(false);
   const [animation, setAnimation] = useState(ANIMATIONS.IDLE.name);
 
+  // @ts-ignore
   useEffect(() => {
     actions[animation]?.reset().fadeIn(0.32).play();
-    //console.log(animation)
     // actions[animation]?.fadeIn(0.32).play();
 
     return () => actions[animation]?.fadeOut(0.32);
@@ -94,10 +94,12 @@ export function Player({
     // so we need to force them not to move
     // the bone of the animation which is causing it is 'Hips'
     if(body.current) {
+      // @ts-ignore
       const hips = body.current.getObjectByName("Hips");
       hips.position.set(0, hips.position.y, 0);
     }
 
+    // @ts-ignore
     const pos = body.current.position;
     
     if (path?.length && pos.distanceTo(path[0]) > 0.1) {
@@ -107,19 +109,17 @@ export function Player({
         .normalize()
         .multiplyScalar(MOVEMENT_SPEED * delta * 60);
       
+      // @ts-ignore
       body.current.position.sub( direction );
+      // @ts-ignore
       body.current.lookAt( path[0] );
-      if(animation !== ANIMATIONS.WALK.name)
+      if(animation !== ANIMATIONS.WALK.name) {
         setAnimation(ANIMATIONS.WALK.name);
-      // setIsDancing(false)
+      }
     } else if (path?.length) {
       path.shift();
     } else {
-      // if(isDancing) {
-      //  setAnimation(ANIMATIONS.DANCE.name)
-      //} else {
-      setAnimation(ANIMATIONS.IDLE.name); 
-      // }
+      setAnimation(ANIMATIONS.IDLE.name);
     }
 
     // Camera to follow character
@@ -142,13 +142,25 @@ export function Player({
   }, [])
 
   return (
-    <group ref={body} position={playerPosition} dispose={null} name={"player"}>
-      <primitive object={clone} />
-    </group>
+    <>
+      {/* 
+      // @ts-ignore */}
+      <group ref={body} position={playerPosition} dispose={null} name={"player"}>
+        <primitive object={clone} />
+      </group>
+
+      <Show when={showPath}>
+        {path && path.map((pos, idx) => (
+          <mesh position={pos}>
+            <boxGeometry args={[0.45, 0.2, 0.45]} />
+            <meshBasicMaterial color={"green"} opacity={0.3} transparent/>
+          </mesh>
+        ))}
+      </Show>
+    </>
   )
 }
 
-//useGLTF.preload(FILE_PATH);
 useGLTF.preload(ANIMATIONS.IDLE.path);
 useGLTF.preload(ANIMATIONS.WALK.path);
 useGLTF.preload(ANIMATIONS.DANCE.path);

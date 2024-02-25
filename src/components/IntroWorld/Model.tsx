@@ -4,6 +4,7 @@ import Show from "~/components/Show";
 import { degToRad, isNullOrUndefined } from "~/utils/utils";
 import { SkeletonUtils } from "three-stdlib"
 import { Object3D, Object3DEventMap } from "three";
+import { useLoadModel } from "~/hooks/useLoadModel";
 
 export enum ModelVariant {
   HOUSE_1 = "house",
@@ -32,32 +33,14 @@ export function Model({
   variant = ModelVariant.HOUSE_1,
 } : ModelProps) {
   const ASSET_PATH = `assets/room-selection/${variant}.glb`;
-  let clone: Object3D<Object3DEventMap> | null = null;
-
-  try {
-    const { scene } = useGLTF( ASSET_PATH );
-  
-    if ( scene ) {
-      // Skinned meshes cannot be re-used in threejs without cloning them
-      clone = useMemo(() => SkeletonUtils.clone(scene), [scene])
-      
-      clone?.traverse((child) => {
-        if ((child as THREE.Mesh).isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
-    }
-  } catch (e) {
-    // console.error("Error while loading", ASSET_PATH, e)
-  }
+  const { scene } = useLoadModel({ assetPath: ASSET_PATH });
 
   return (
-    <Show when={!isNullOrUndefined( clone )}>
+    <Show when={!isNullOrUndefined( scene )}>
       <Suspense fallback={null}>
         <primitive
           // @ts-ignore
-          object={clone}
+          object={scene}
           position-x={position.x}
           position-y={position.y}
           position-z={position.z}

@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { useAtom } from "jotai";
 import { TRANSLATIONS } from "../../translations"
 import { useTranslation } from "../../utils/useTranslation";
@@ -45,6 +44,8 @@ export default function IntroInterface() {
 		</div>
 
 		<div className="version">
+			{/* 
+			// @ts-ignore */}
 			<h4 className="white-text">{APP_VERSION}</h4>
 		</div>
 	</div>

@@ -1,13 +1,17 @@
 import './style.css'
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Canvas } from '@react-three/fiber'
 import Experience from './Experience.jsx'
 import Interface from './Interface'
+import { Loader, useProgress } from '@react-three/drei'
+import Show from './components/Show'
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 
 function App() {
+  const { progress } = useProgress();
+  
   return (
     <>
       <Canvas
@@ -20,10 +24,20 @@ function App() {
         }}
         gl={{ preserveDrawingBuffer: true }}
       >
-        <Experience />
+        <Show when={progress === 100}>
+          <Suspense fallback={null}>
+            <Experience />
+          </Suspense>
+        </Show>
       </Canvas>
 
-    <Interface />
+    <Loader />
+
+    <Show when={progress === 100}>
+      <Suspense fallback={null}>
+        <Interface />
+      </Suspense>
+    </Show>
     </>
   )
 }

@@ -66,7 +66,6 @@ export const Item = ({
     lightPosition = boundingBox.max.y;
   }
 
-
   return <group
     onClick={onClick}
     position={gridToVector3(isDragging ? (dragPosition || gridPosition) : gridPosition, width, height)}

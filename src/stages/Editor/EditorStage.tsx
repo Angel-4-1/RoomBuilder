@@ -1,17 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { atom, useAtom } from "jotai"
-import { MapItemProps, default as mapData } from "~/data/map";
 import { Item } from "~/components/Item";
-import { Grid, Html, OrbitControls, PivotControls, ScrollControls } from "@react-three/drei";
+import { Grid, Html, OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useGrid } from "~/hooks/useGrid";
 import Show from "~/components/Show";
-import { Shop } from "./Shop";
-import { Quaternion, Vector3 } from "three";
+import { Vector3 } from "three";
 import { ItemProps } from "~/data/items";
 import { mapAtom, userAtom } from "~/Experience";
-import Wrapper from "~/components/Wrapper";
-import { isNullOrUndefined } from "~/utils/utils";
 
 export enum ItemActions {
   NONE = 0,
@@ -224,13 +220,11 @@ export default function EditorStage() {
   });
 
   useEffect(() => {
-    console.log( "items updated")
     map.items = items;
     setMap( map );
   }, [items])
   
   useEffect(() => {
-    console.log( "map updated")
     setItems( map.items );
   }, [map])
 
@@ -308,24 +302,8 @@ export default function EditorStage() {
         <p className="editor-coordinate">({map.size[0] * map.gridDivision},{map.size[1] * map.gridDivision})</p>
       </Html>
 
-      {/* {
-      draggedItem && 
-        <Html position={gridToVector3(items[draggedItem].gridPosition)}>
-          <div className="editor-draggedItem-container">
-            <button>Move</button>
-            <p>Item</p>
-          </div>
-        </Html>
-      } */}
-
       {/* Grid */}
       <Grid infiniteGrid fadeDistance={50} fadeStrength={5}/>
-    </Show>
-
-    <Show when={shopMode}>
-      <ScrollControls pages={4}>
-        <Shop onItemSelected={onItemSelected}/>
-      </ScrollControls>
     </Show>
   </>
 }
