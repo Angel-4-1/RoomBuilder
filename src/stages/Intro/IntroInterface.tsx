@@ -48,5 +48,15 @@ export default function IntroInterface() {
 			// @ts-ignore */}
 			<h4 className="white-text">{APP_VERSION}</h4>
 		</div>
+		
+		<div className="links">
+			<a href="https://angel-4-1.github.io/" target="_blank">
+				<img className="link-images" src="icon.png" />
+			</a>
+
+			<a className="link-code" href="https://github.com/Angel-4-1/room-builder" target="_blank">
+				<img className="link-images" src="github.png" />
+			</a>
+		</div>
 	</div>
 }

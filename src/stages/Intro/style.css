@@ -12,6 +12,18 @@
     backdrop-filter: blur(1px);
 }
 
+.subtitle {
+    text-align: center;
+    margin-left: 15px;
+    background: rgba(0,0,0,0.25);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.white-text {
+    color: #fff;
+}
+
 .version {
     position: absolute;
     right: 0;
@@ -19,16 +31,20 @@
     margin-right: 5vw;
 }
 
-.white-text {
-    color: #fff;
+.links {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin: 2vw;
 }
 
-.subtitle {
-    text-align: center;
+.link-images {
+    width: 40px;
+    height: 40px;
+}
+
+.link-code {
     margin-left: 15px;
-    background: rgba(0,0,0,0.25);
-    padding: 10px;
-    border-radius: 10px;
 }
 
 /** LANGUAGES **/

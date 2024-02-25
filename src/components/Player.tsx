@@ -33,7 +33,7 @@ const ANIMATIONS = {
 interface PlayerProps {
   externalPath: [];
   position: THREE.Vector3;
-  showPath: boolean;
+  showPath?: boolean;
 }
 
 export function Player({
@@ -130,6 +130,8 @@ export function Player({
     // Set look at position
     const lookAtVector = new THREE.Vector3( pos.x, pos.y + 1, pos.z )
     state.camera.lookAt( lookAtVector );
+
+    // Update user atom
   })
 
   useEffect(() => {

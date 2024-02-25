@@ -189,13 +189,23 @@ export default function EditorInterface() {
     max: 20
   }
 
-  const onChangeMapSize = () => {
+  const [mapWidthDisplay, setMapWidthDisplay] = useState(map.size[0]);
+  const [mapHeightDisplay, setMapHeightDisplay] = useState(map.size[1]);
+
+  const onChangeWidth = (e: any) => {
     // @ts-ignore
     const widthMap = document.getElementById("widthMap")?.value;
-    console.log(widthMap)
+    setMapWidthDisplay( widthMap );
+  }
+  
+  const onChangeHeight = (e: any) => {
     // @ts-ignore
     const heightMap = document.getElementById("heightMap")?.value;
-    map.size = [widthMap, heightMap];
+    setMapHeightDisplay( heightMap )
+  }
+
+  const onChangeMapSize = () => {
+    map.size = [mapWidthDisplay, mapHeightDisplay];
     setMap(map);
   }
 
@@ -246,8 +256,8 @@ export default function EditorInterface() {
 
         <div>
           <div className="slidecontainer">
-            <label htmlFor="widthMap">Width:</label>
-            <input type="range" id="widthMap" min={sliderMinMax.min} max={sliderMinMax.max} defaultValue={map.size[0]} className="inputRange" />
+            <label htmlFor="widthMap">Width: {mapWidthDisplay}</label>
+            <input type="range" id="widthMap" min={sliderMinMax.min} max={sliderMinMax.max} defaultValue={map.size[0]} className="inputRange" onChange={onChangeWidth} />
             <span className="slideLabels">
               <span className="slideLabelLeft">{sliderMinMax.min}</span>
               <span className="slideLabelRight">{sliderMinMax.max}</span>
@@ -255,8 +265,8 @@ export default function EditorInterface() {
           </div>
           
           <div className="slidecontainer">
-            <label htmlFor="heightMap">Height:</label>
-            <input type="range" id="heightMap" min={sliderMinMax.min} max={sliderMinMax.max} defaultValue={map.size[1]} className="inputRange" />
+            <label htmlFor="heightMap">Height: {mapHeightDisplay}</label>
+            <input type="range" id="heightMap" min={sliderMinMax.min} max={sliderMinMax.max} defaultValue={map.size[1]} className="inputRange" onChange={onChangeHeight}/>
             <span className="slideLabels">
               <span className="slideLabelLeft">{sliderMinMax.min}</span>
               <span className="slideLabelRight">{sliderMinMax.max}</span>
@@ -267,28 +277,6 @@ export default function EditorInterface() {
             Change
           </button>
         </div>
-
-        <Show when={false && (!isNullOrUndefined(draggedItem))}>
-          <div className={"editor-item-actions-container"}>
-            <button onClick={onRotateClick}>
-              {useTranslation(TRANSLATIONS.editorStage.buttons.item.rotate)}
-            </button>
-
-            <button
-              onClick={onMoveClick}
-              className={itemAction === ItemActions.MOVE ? "button-enabled" : "button-disabled"}
-            >
-              {useTranslation(TRANSLATIONS.editorStage.buttons.item.move)}
-            </button>
-
-            <button
-              onClick={onDeleteClick}
-              className={"button-red"}
-            >
-              {useTranslation(TRANSLATIONS.editorStage.buttons.item.delete)}
-            </button>
-          </div>
-        </Show>
       </div>
       
       <div className="editor-items-container">

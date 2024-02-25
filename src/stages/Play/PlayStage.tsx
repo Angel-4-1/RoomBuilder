@@ -6,7 +6,7 @@ import { AccumulativeShadows, OrbitControls, RandomizedLight, useCursor } from "
 import { useThree } from "@react-three/fiber";
 import { ItemProps } from "~/data/items";
 import { useGrid } from "~/hooks/useGrid";
-import { charactersAtom, mapAtom, userAtom } from "~/Experience";
+import { mapAtom, userAtom } from "~/Experience";
 // @ts-ignore
 import Pathfinding from "pathfinding"
 import { Player } from "~/components/Player";
@@ -67,7 +67,6 @@ export default function PlayStage() {
   const [onFloor, setOnFloor] = useState(false);
   const scene = useThree((state) => state.scene);
   const [user, setUser] = useAtom(userAtom);
-  const [characters, setCharacters] = useAtom(charactersAtom);
 
   // When mouse on the floor
   useCursor( onFloor );
@@ -219,6 +218,7 @@ export default function PlayStage() {
           gridToVector3(user?.position ? user.position : generateRandomPositionGridBasedSystem())
         }
         externalPath={path}
+        // showPath={true}
       />
     </Show>
   </>
