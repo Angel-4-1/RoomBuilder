@@ -9,7 +9,6 @@ import { SkeletonUtils } from "three-stdlib"
 import { useFrame } from '@react-three/fiber';
 import { useGrid } from '../hooks/useGrid';
 import * as THREE from "three"
-import Show from './Show';
 
 const PLAYER_MODEL_GLB = "models/character.glb";
 const MOVEMENT_SPEED = 0.05;
@@ -151,14 +150,16 @@ export function Player({
         <primitive object={clone} />
       </group>
 
-      <Show when={showPath}>
-        {path && path.map((pos, idx) => (
-          <mesh position={pos}>
-            <boxGeometry args={[0.45, 0.2, 0.45]} />
-            <meshBasicMaterial color={"green"} opacity={0.3} transparent/>
-          </mesh>
-        ))}
-      </Show>
+      { showPath && path && (
+        <>
+          {path.map((pos, idx) => (
+            <mesh position={pos}>
+              <boxGeometry args={[0.45, 0.2, 0.45]} />
+              <meshBasicMaterial color={"green"} opacity={0.3} transparent/>
+            </mesh>
+          ))}
+        </>
+      )}
     </>
   )
 }

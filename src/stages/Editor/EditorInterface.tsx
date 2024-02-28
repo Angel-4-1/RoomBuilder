@@ -14,6 +14,7 @@ import { OrbitControls } from "@react-three/drei";
 import { ItemEditor } from "./ItemEditor";
 import { AlertType, createAlertBoxMessage } from "~/components/AlertBox";
 import DayNightSwitch from "~/components/DayNightSwitch";
+import { ItemProps } from "~/data/items";
 
 export default function EditorInterface() {
   const [stage, setStage] = useAtom(stageAtom);
@@ -145,7 +146,7 @@ export default function EditorInterface() {
 
   const [allItems] = useAtom(allItemsAtom);
 
-  const [itemSelected, setItemSelected] = useState(null);
+  const [itemSelected, setItemSelected] = useState<ItemProps | null>(null);
 
   const shopItems = useMemo(() => { 
     return Object.values(allItems).map((item, index) => {
@@ -156,7 +157,6 @@ export default function EditorInterface() {
       }
 
       const onMouseEnter = () => {
-        // @ts-ignore
         setItemSelected(item);
       }
       
@@ -299,22 +299,21 @@ export default function EditorInterface() {
     >
       <color attach="background" args={['#faf8eb']} />
       <OrbitControls target={[ 0, 0.5, 0]}/>
-      <Show when={itemSelected !== null}>
-
-        <ambientLight intensity={0.5} />
-        <directionalLight intensity={0.3} castShadow />
-
-        {/* Item Preview */}
-        <ItemEditor 
-          // @ts-ignore
-          item={itemSelected} 
-        />
-      </Show>
+      {
+        !isNullOrUndefined(itemSelected) && (
+          <>
+            <ambientLight intensity={0.5} />
+            <directionalLight intensity={0.3} castShadow />
+    
+            {/* Item Preview */}
+            <ItemEditor 
+              // @ts-ignore
+              item={itemSelected} 
+            />
+          </>
+        )
+      }
     </Canvas>
-
-    {/* <div className="editor-item-info">
-      {useTranslation(TRANSLATIONS.editorStage.itemPreviewm.title)}
-    </div> */}
 </div>
 
   <Show when={(!isNullOrUndefined(draggedItem))}>

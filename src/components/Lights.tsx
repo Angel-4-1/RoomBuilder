@@ -1,10 +1,7 @@
 import { useHelper } from '@react-three/drei';
-import React, { useEffect, useRef } from 'react'
-import { Camera, CameraHelper, DirectionalLight, DirectionalLightHelper, /*SpotLight, SpotLightHelper,*/ Vector3 } from 'three';
+import React, { useRef } from 'react'
+import { DirectionalLight, DirectionalLightHelper, /*SpotLight, SpotLightHelper,*/ Vector3 } from 'three';
 import Show from './Show';
-import Wrapper from './Wrapper';
-import { useAtom } from 'jotai';
-import { userAtom } from '~/Experience';
 
 interface LightProps {
   isDebug?: boolean;
@@ -70,17 +67,11 @@ export default function Lights({
   isDay = true,
 }: LightsProps) {
   const dirLight = useRef<DirectionalLight>(null);
-  const [user, setUser] = useAtom(userAtom);
 
   if(isDebug) {
     // @ts-ignore
     useHelper(dirLight, DirectionalLightHelper, 1, "red");
   }
-
-  useEffect(() => {
-    console.log( user )
-    console.log( dirLight )
-  }, [user])
 
   // const sLightRef = useRef<SpotLight>(null);
   // const shadowCameraRef = useRef<Camera>(null);

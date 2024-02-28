@@ -49,6 +49,7 @@ export const TRANSLATIONS = {
     },
     alertMsg: {
       mapDownloaded: ["Map successfully downloaded", "Mapa descargado correctamente"],
+      mapDownloadedError: ["Sorry, something went wrong", "Lo siento, algo ha ido mal"],
     }
   },
 
